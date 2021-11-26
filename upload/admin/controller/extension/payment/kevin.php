@@ -10,7 +10,7 @@
 * It is also available through the world-wide-web at this URL:
 * http://opensource.org/licenses/afl-3.0.php
 * 
-*  @author 2020 kevin. <info@getkevin.eu>
+*  @author 2020 kevin. <help@kevin.eu>
 *  @copyright kevin.
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
@@ -152,6 +152,12 @@ class ControllerExtensionPaymentKevin extends Controller {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
 			$data['error_warning'] = '';
+		}
+		
+		if (isset($this->error['bcmod'])) {
+			$data['error_bcmod'] = $this->error['bcmod'];
+		} else {
+			$data['error_bcmod'] = '';
 		}
 	
 		if (isset($this->error['client_id'])) {
@@ -758,6 +764,17 @@ class ControllerExtensionPaymentKevin extends Controller {
 		
 		if (empty($this->request->post['payment_kevin_client_iban'])) {
 			$this->error['client_iban_empty'] = $this->language->get('error_client_iban_empty');
+		}
+		
+		if (!empty($this->request->post['payment_kevin_client_iban'])) {
+			
+			$validate = $this->checkIBAN($this->request->post['payment_kevin_client_iban']);
+			if (!$validate) {
+				$this->error['client_iban_valid'] = $this->language->get('error_client_iban_valid');
+			}
+			if ($validate === 'error_bcmod') {
+				$this->error['bcmod'] = $this->language->get('error_bcmod');
+			}
 		}
 		
 		if ($this->error && !isset($this->error['warning'])) {
