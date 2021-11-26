@@ -15,11 +15,39 @@
     </div>
     </div>
   <div class="container-fluid">
+    {% if (text_sandbox_alert) %}  
+	<div class="alert alert-warning"><i class="fa fa-exclamation-circle"></i> {{ text_sandbox_alert }}
+     <!-- <button type="button" class="close" data-dismiss="alert">&times;</button>-->
+    </div>
+	{% endif %}
+	{% if (payment_methods) %} 
+    <div class="alert alert-success"><i class="fa fa-exclamation-circle"></i> {{ payment_card }}{{ payment_bank }}{{ refunds }} 
+    </div>
+    {% endif %} 
+	{% if (error_client) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_client }} 
+    </div>
+    {% endif %} 
     {% if (error_warning) %} 
     <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_warning }} 
       <button type="button" class="close" data-dismiss="alert">&times;</button>
     </div>
     {% endif %} 
+	{% if (error_payment_log_warning) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_payment_log_warning }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+	{% if (error_refund_log_warning) %} 
+    <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> {{ error_refund_log_warning }} 
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %} 
+	{% if (success) %} 
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+    <button type="button" class="close" data-dismiss="alert">×</button>
+    </div>
+	{% endif %} 
        <div class="panel panel-default">
      <div class="panel-heading">
         <h3 class="panel-title"><i class="fa fa-pencil"></i> {{ text_edit }}</h3>
@@ -30,6 +58,9 @@
           <li class="active"><a href="#general" data-toggle="tab">{{ entry_general }}</a></li>
           <li><a href="#order_statuses" data-toggle="tab">{{ entry_order_statuses }}</a></li>
 		  <li><a href="#instructions" data-toggle="tab">{{ entry_instructions }}</a></li>
+		  <li><a href="#refund_actions" data-toggle="tab">{{ entry_refund_actions }}</a></li>
+		  <li><a href="#tab-payment-log" data-toggle="tab">{{ entry_payment_log }}</a></li>
+		  <li><a href="#tab-refund-log" data-toggle="tab">{{ entry_refund_log }}</a></li>
         </ul>
         
         <div class="tab-content">
@@ -48,9 +79,20 @@
 		<div class="form-group required">
             <label class="col-sm-2 control-label" for="input-secret">{{ entry_client_secret }}</label>
             <div class="col-sm-10">
-              <input type="text" name="payment_kevin_client_secret" value="{{ payment_kevin_client_secret }}" placeholder="{{ entry_client_secret }}" id="input-secret" class="form-control" />
+              <input type="password" name="payment_kevin_client_secret" value="{{ payment_kevin_client_secret }}" placeholder="{{ entry_client_secret }}" id="input-secret" class="form-control" />
               {% if (error_client_secret) %} 
               <div class="text-danger">{{ error_client_secret }}</div>
+              {% endif %} 
+            </div>
+          </div>
+			
+			<!-- endpointSecret -->
+			<div class="form-group required">
+            <label class="col-sm-2 control-label" for="input-endpointSecret"><span data-toggle="tooltip" title="{{ help_client_endpointSecret }}">{{ entry_client_endpointSecret }}</span></label>
+            <div class="col-sm-10">
+              <input type="password" name="payment_kevin_client_endpointSecret" value="{{ payment_kevin_client_endpointSecret }}" placeholder="{{ entry_client_endpointSecret }}" id="input-endpointSecret" class="form-control" />
+              {% if error_client_endpointSecret %} 
+              <div class="text-danger">{{ error_client_endpointSecret }}</div>
               {% endif %} 
             </div>
           </div>
@@ -205,6 +247,20 @@
               </select>
             </div>
           </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="input-refund-status">{{ entry_refund_status }}</label>
+            <div class="col-sm-10">
+              <select name="payment_kevin_refund_status" id="input-refund-status" class="form-control">
+                {% if payment_kevin_refund_status %}
+                <option value="1" selected="selected">{{ text_enabled }}</option>
+                <option value="0">{{ text_disabled }}</option>
+                {% else %} 
+                <option value="1">{{ text_enabled }}</option>
+                <option value="0" selected="selected">{{ text_disabled }}</option>
+                {% endif %} 
+              </select>
+            </div>
+          </div>
 		  <div class="form-group">
             <label class="col-sm-2 control-label" for="input-log"><span data-toggle="tooltip" title="{{ help_log }}">{{ entry_log }}</label>
             <div class="col-sm-10">
@@ -228,10 +284,11 @@
 			</div>
 	
 		<div class="tab-pane" id="order_statuses">	
-			<div class="form-group">
+			<div class="form-group required">
 			  <label class="col-sm-2 control-label" for="order-status-started">{{ entry_started_status }}</label>
 			  <div class="col-sm-10">
 				<select name="payment_kevin_started_status_id" class="form-control" id="order-status-started">
+					<option value="" selected="selected">{{ text_select_status }}</option>
 				  {% for order_status in order_statuses %} 
 					  {% if (order_status['order_status_id'] == payment_kevin_started_status_id) %} 
 						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
@@ -240,12 +297,16 @@
 					  {% endif %} 
 				  {% endfor %} 
 				</select>
+			  {% if (error_started_status) %} 
+              <div class="text-danger">{{ error_started_status }}</div>
+              {% endif %} 
 			  </div>
 			</div>
-   			<div class="form-group">
+   			<div class="form-group required">
 			  <label class="col-sm-2 control-label" for="order-completed-status">{{ entry_completed_status }}</label>
 			  <div class="col-sm-10">
 				<select name="payment_kevin_completed_status_id" class="form-control"  id="order-completed-status">
+					<option value="" selected="selected">{{ text_select_status }}</option>
 				  {% for order_status in order_statuses %} 
 					  {% if (order_status['order_status_id'] == payment_kevin_completed_status_id) %} 
 						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
@@ -254,12 +315,16 @@
 					  {% endif %} 
 				  {% endfor %} 
 				</select>
+				  {% if (error_completed_status) %} 
+              <div class="text-danger">{{ error_completed_status }}</div>
+              {% endif %} 
 			  </div>
 			</div>
-			<div class="form-group">
+			<div class="form-group required">
 			  <label class="col-sm-2 control-label" for="order-pending-status">{{ entry_pending_status }}</label>
 			  <div class="col-sm-10">
 				<select name="payment_kevin_pending_status_id" class="form-control" id="order-pending-status">
+					<option value="" selected="selected">{{ text_select_status }}</option>
 				  {% for order_status in order_statuses %} 
 					  {% if (order_status['order_status_id'] == payment_kevin_pending_status_id) %} 
 						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
@@ -268,12 +333,16 @@
 					  {% endif %} 
 				  {% endfor %} 
 				</select>
+				  {% if (error_pending_status) %} 
+              <div class="text-danger">{{ error_pending_status }}</div>
+              {% endif %} 
 			  </div>
 			</div>
-			<div class="form-group">
+			<div class="form-group required">
 			  <label class="col-sm-2 control-label" for="order-status-failed">{{ entry_failed_status }}</label>
 			  <div class="col-sm-10">
 				<select name="payment_kevin_failed_status_id" class="form-control" id="order-status-failed">
+					<option value="" selected="selected">{{ text_select_status }}</option>
 				  {% for order_status in order_statuses %} 
 					  {% if (order_status['order_status_id'] == payment_kevin_failed_status_id) %} 
 						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
@@ -282,6 +351,47 @@
 					  {% endif %} 
 				  {% endfor %} 
 				</select>
+				  {% if (error_failed_status) %} 
+              <div class="text-danger">{{ error_failed_status }}</div>
+              {% endif %} 
+			  </div>
+			</div>
+			
+			<div class="form-group required">
+			  <label class="col-sm-2 control-label" for="order-status-partial">{{ entry_partial_refund_status }}</label>
+			  <div class="col-sm-10">
+				<select name="payment_kevin_partial_refund_status_id" class="form-control" id="order-status-partial">
+					<option value="" selected="selected">{{ text_select_status }}</option>
+				  {% for order_status in order_statuses %} 
+					  {% if (order_status['order_status_id'] == payment_kevin_partial_refund_status_id) %} 
+						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
+					  {% else %} 
+						  <option value="{{ order_status['order_status_id'] }}">{{ order_status['name'] }}</option>
+					  {% endif %} 
+				  {% endfor %} 
+				</select>
+				  {% if (error_partial_status) %} 
+              <div class="text-danger">{{ error_partial_status }}</div>
+              {% endif %} 
+			  </div>
+			</div>
+			
+			<div class="form-group required">
+			  <label class="col-sm-2 control-label" for="order-status-refunded">{{ entry_refunded_status }}</label>
+			  <div class="col-sm-10">
+				<select name="payment_kevin_refunded_status_id" class="form-control" id="order-status-refunded">
+					<option value="" selected="selected">{{ text_select_status }}</option>
+				  {% for order_status in order_statuses %} 
+					  {% if (order_status['order_status_id'] == payment_kevin_refunded_status_id) %} 
+						  <option value="{{ order_status['order_status_id'] }}" selected="selected">{{ order_status['name'] }}</option>
+					  {% else %} 
+						  <option value="{{ order_status['order_status_id'] }}">{{ order_status['name'] }}</option>
+					  {% endif %} 
+				  {% endfor %} 
+				</select>
+				  {% if (error_refunded_status) %} 
+              <div class="text-danger">{{ error_refunded_status }}</div>
+              {% endif %} 
 			  </div>
 			</div>
 			
@@ -313,6 +423,102 @@
           {% endfor %}
 
          </div>
+			
+			<div class="tab-pane" id="refund_actions">	
+			<div class="form-group required">
+			  <label class="col-sm-2 control-label" for="order-created-refund-action">{{ entry_created_refund_action }}</label>
+			  <div class="col-sm-10">
+				<select name="payment_kevin_created_action_id" class="form-control" id="order-created-refund-action">
+					<option value="" selected="selected">{{ text_select_action }}</option>
+				  {% for refund_action in refund_actions %} 
+					  {% if (refund_action['return_action_id'] == payment_kevin_created_action_id) %} 
+						  <option value="{{ refund_action['return_action_id'] }}" selected="selected">{{ refund_action['name'] }}</option>
+					  {% else %} 
+						  <option value="{{ refund_action['return_action_id'] }}">{{ refund_action['name'] }}</option>
+					  {% endif %} 
+				  {% endfor %} 
+				</select>
+				  {% if (error_created_action) %} 
+              <div class="text-danger">{{ error_created_action }}</div>
+              {% endif %} 
+			  </div>
+			</div>
+			<div class="form-group required">
+			  <label class="col-sm-2 control-label" for="order-partial-refund-action">{{ entry_partial_refund_action }}</label>
+			  <div class="col-sm-10">
+				<select name="payment_kevin_partial_refund_action_id" class="form-control" id="order-partial-refund-action">
+					<option value="" selected="selected">{{ text_select_action }}</option>
+				  {% for refund_action in refund_actions %} 
+					  {% if (refund_action['return_action_id'] == payment_kevin_partial_refund_action_id) %} 
+						  <option value="{{ refund_action['return_action_id'] }}" selected="selected">{{ refund_action['name'] }}</option>
+					  {% else %} 
+						  <option value="{{ refund_action['return_action_id'] }}">{{ refund_action['name'] }}</option>
+					  {% endif %} 
+				  {% endfor %} 
+				</select>
+				  {% if (error_partial_action) %} 
+              <div class="text-danger">{{ error_partial_action }}</div>
+              {% endif %} 
+			  </div>
+			</div>
+   			<div class="form-group required">
+			  <label class="col-sm-2 control-label" for="order-full-refund-action">{{ entry_full_refund_action }}</label>
+			  <div class="col-sm-10">
+				<select name=" payment_kevin_refunded_action_id" class="form-control"  id="order-full-refund-action">
+					<option value="" selected="selected">{{ text_select_action }}</option>
+				  {% for refund_action in refund_actions %} 
+					  {% if (refund_action['return_action_id'] == payment_kevin_refunded_action_id) %} 
+						  <option value="{{ refund_action['return_action_id'] }}" selected="selected">{{ refund_action['name'] }}</option>
+					  {% else %} 
+						  <option value="{{ refund_action['return_action_id'] }}">{{ refund_action['name'] }}</option>
+					  {% endif %} 
+				  {% endfor %} 
+				</select>
+				  {% if (error_refunded_action) %} 
+              <div class="text-danger">{{ error_refunded_action }}</div>
+              {% endif %} 
+			  </div>
+			</div>
+		</div>	
+			
+			
+<div class="tab-pane" id="tab-payment-log">
+
+  <div class="container-fluid">
+   
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-info "></i> {{ text_payment_log }}</h3>
+      </div>
+      <div class="panel-body">
+        <textarea wrap="off" rows="15" readonly class="form-control">{{ payment_log }}</textarea>
+      </div>
+    </div>
+	  <div class="pull-right">
+     <!---->   <a href="{{ download_payment_log }}" data-toggle="tooltip" title="{{ button_download }}" class="btn btn-primary"><i class="fa fa-download"></i></a> <a onclick="confirm('{{ text_confirm }}') ? location.href='{{ clear_payment_log }}' : false;" data-toggle="tooltip" title="{{ button_clear }}" class="btn btn-danger"><i class="fa fa-eraser"></i></a> 
+      </div>
+  </div>		
+  </div>
+			
+  <div class="tab-pane" id="tab-refund-log">
+
+  <div class="container-fluid">
+   
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-info "></i> {{ text_refund_log }}</h3>
+      </div>
+      <div class="panel-body">
+        <textarea wrap="off" rows="15" readonly class="form-control">{{ refund_log }}</textarea>
+      </div>
+    </div>
+	  <div class="pull-right">
+     <!---->   <a href="{{ download_refund_log }}" data-toggle="tooltip" title="{{ button_download }}" class="btn btn-primary"><i class="fa fa-download"></i></a> <a onclick="confirm('{{ text_confirm }}') ? location.href='{{ clear_refund_log }}' : false;" data-toggle="tooltip" title="{{ button_clear }}" class="btn btn-danger"><i class="fa fa-eraser"></i></a> 
+      </div>
+  </div>		
+  </div>
+			
+			
         </div>
           
         </form>

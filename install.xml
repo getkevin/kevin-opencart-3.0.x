@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
-	<name>Kevin Payment</name>
-	<version>0.2.1.5</version>
-	<code>KevinPayment</code>
+	<name>Kevin Payment/Refund OC 3.0.x.x</name>
+	<version>1.0.1.4</version>
+	<code>KevinPayment_Refund</code>
     <author>Kevin.</author>
 	<link><![CDATA[https://getkevin.eu]]></link>
-
+	<file path="admin/controller/common/column_left.php">
+		<operation error="skip">
+			<search>
+			<![CDATA[if ($this->user->hasPermission('access', 'sale/recurring')) {]]>
+			</search>
+			<add position="before">
+			<![CDATA[
+			if ($this->config->get('payment_kevin_refund_status') && $this->config->get('module_kevin_refund_status')) {
+				//kevin refund
+				$this->load->language('extension/module/kevin_refund');
+				if ($this->user->hasPermission('access', 'extension/module/kevin_refund')) {
+					$sale[] = array(
+						'name'	   => $this->language->get('heading_title'),
+						'href'     => $this->url->link('extension/module/kevin_refund', 'user_token=' . $this->session->data['user_token'], true),
+						'children' => array()		
+					);	
+				}
+				$this->load->language('sale/order');
+			}
+			
+			]]></add>
+		</operation>	
+	</file>
+	
+	<file path="admin/model/sale/order.php">
+		<operation error="skip">
+			<search>
+			<![CDATA[$this->db->query("DELETE FROM `" . DB_PREFIX . "order` WHERE order_id = '" . (int)$order_id . "'");]]>
+			</search>
+			<add position="before">
+			<![CDATA[		$this->db->query("DELETE FROM `" . DB_PREFIX . "kevin_order` WHERE order_id = '" . (int)$order_id . "'");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "kevin_refund` WHERE order_id = '" . (int)$order_id . "'");]]></add>
+		</operation>	
+	</file>
 </modification>
