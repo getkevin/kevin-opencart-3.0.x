@@ -35,10 +35,17 @@ class ModelExtensionPaymentKevin extends Model {
 		];
 
 		$kevinClient = new Client($clientId, $clientSecret, $options);
+		
+		$project_settings = $kevinClient->auth()->getProjectSettings();
+
+		if (!empty($project_settings['error']['code']) && ($project_settings['error']['code'] == '401' || $project_settings['error']['code'] == '400')) {	
+			$status = false;
+			return;
+		}
 
 		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zone_to_geo_zone WHERE geo_zone_id = '" . (int)$this->config->get('payment_kevin_geo_zone_id') . "' AND country_id = '" . (int)$address['country_id'] . "' AND (zone_id = '" . (int)$address['zone_id'] . "' OR zone_id = '0')");
 
-		if ($this->config->get('payment_kevin_total') > $total) {
+		if ($this->config->get('payment_kevin_total') > 0 && $this->config->get('payment_kevin_total') > $total) {
 			$status = false;
 		} elseif (!$this->config->get('payment_kevin_geo_zone_id')) {
 			$status = true;
@@ -50,18 +57,7 @@ class ModelExtensionPaymentKevin extends Model {
 		
 		$current_country_code = $address['iso_code_2'];
 		$this->session->data['iso_code_2'] = $address['iso_code_2'];
-		
-		$project_settings = $kevinClient->auth()->getProjectSettings();
 
-		if (!empty($project_settings['error']['code']) && ($project_settings['error']['code'] == '401' || $project_settings['error']['code'] == '400')) {	
-			$status = false;
-			return;
-		} else if (!$status) {
-			$status = false;
-		} else {
-			$status = true;
-		}
-		
 		$payment_methods = $project_settings['paymentMethods'];
 
 		$contries = $kevinClient->auth()->getCountries();

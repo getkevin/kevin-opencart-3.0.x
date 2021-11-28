@@ -12,7 +12,7 @@
 			</search>
 			<add position="before">
 			<![CDATA[
-			if ($this->config->get('payment_kevin_refund_status') && $this->config->get('module_kevin_refund_status')) {
+			if ($this->config->get('payment_kevin_status') && ($this->config->get('payment_kevin_refund_status') && $this->config->get('module_kevin_refund_status'))) {
 				//kevin refund
 				$this->load->language('extension/module/kevin_refund');
 				if ($this->user->hasPermission('access', 'extension/module/kevin_refund')) {

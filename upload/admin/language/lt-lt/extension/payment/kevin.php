@@ -79,6 +79,7 @@ $_['error_client_company']         = 'Kliento įmonės pavadinimas privalomas!';
 $_['error_client_iban_empty']      = 'Kliento sąskaitos Nr. privalomas!';
 $_['error_client_iban_valid']      = 'Kliento sąskaitos Nr. Negalioja!';
 $_['error_title']                  = 'Mokėjimo būdo pavadinimas, arba banko logotipas privalomas!';
+$_['error_bcmod']                  = 'Neįmanoma patvirtinti sąskaitos Nr., kadangi PHP Modulis "bcmath" nėra įdiegtas Jūsų serveryje! Idiekite "bcmath" modulį, arba paprašykite tai padaryti serverio administratoriaus.';
 $_['error_started_status']         = 'Užsakymo būsena privaloma!';
 $_['error_pending_status']         = 'Užsakymo būsena privaloma!';
 $_['error_failed_status']          = 'Užsakymo būsena privaloma!';

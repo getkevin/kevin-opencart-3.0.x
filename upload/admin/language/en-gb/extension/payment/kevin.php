@@ -79,6 +79,7 @@ $_['error_client_company']         = 'Client Company Name Required!';
 $_['error_client_iban_empty']      = 'Client Account No. Required!';
 $_['error_client_iban_valid']      = 'Client Account No. not valid!';
 $_['error_title']                  = 'Payment Title, or Payment logo Required!';
+$_['error_bcmod']                  = 'Not possible validate Account No. because PHP Module "bcmath" are not installed on your server!  Please install "bcmath" module, or ask your server provider to install "bcmath" module.';
 $_['error_started_status']         = 'Order status required!';
 $_['error_pending_status']         = 'Order status required!';
 $_['error_failed_status']          = 'Order status required!';
