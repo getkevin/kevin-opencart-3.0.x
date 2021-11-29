@@ -84,9 +84,6 @@ class ControllerExtensionModuleKevinRefund extends Controller {
 			if (!empty($project['error']['code'])) {
 				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">Kevin. </span> Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code'];
 				$this->KevinRefundLog('Can not connect to Kevin.  Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code']);
-			} else {
-				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">Kevin. </span> due to server error!';
-				$this->KevinRefundLog('Can not connect to Kevin. due to server error!');
 			}
 			$project_settings = false;
 		} else {
@@ -106,7 +103,7 @@ class ControllerExtensionModuleKevinRefund extends Controller {
 			if ($refunds) {
 				usort($refunds, "cmp");
 			}
-			if ($project['isSandbox']) {
+			if (!empty($project_settings['isSandbox']) && $project_settings['isSandbox']) {
 				$data['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">Kevin.</span> Refunds is set to Sandbox mode. Only for test Refunds. Real Refunds is not available!';
 			} else {
 				$data['text_sandbox_alert'] = '';
@@ -127,13 +124,7 @@ class ControllerExtensionModuleKevinRefund extends Controller {
 		} else {
 			$data['success_refund'] = '';
 		}
-		
-		if (!empty($project_settings['isSandbox']) && $project_settings['isSandbox']) {
-			$data['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">Kevin.</span> Refunds is set to Sandbox mode. Only for test Refunds. Real Refunds is not available!';
-		} else {
-			$data['text_sandbox_alert'] = '';
-		}
-		
+
 		if (isset($this->request->get['filter_order_id'])) {
 			$filter_order_id = $this->request->get['filter_order_id'];
 		} else {

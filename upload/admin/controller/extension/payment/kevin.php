@@ -76,7 +76,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 
 		$data['error_client'] = '';
 
-		if (empty($project['allowedRefundsFor']) || empty($project['allowedRefundsFor'])) {
+		if (empty($project['allowedRefundsFor']) && empty($project['paymentMethods'])) {
 			if (!empty($project['error']['code'])) {
 				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">Kevin. </span> Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code'] . '. Make sure the credentials you entered are correct.';
 			} else if (!empty($project['empty'])) {
