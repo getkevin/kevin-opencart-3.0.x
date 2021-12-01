@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x
+* 2020 kevin. payment  for OpenCart version 3.0.x.x
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -15,7 +15,7 @@
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
 // Text
-$_['text_title']                           = 'Kevin';
+$_['text_title']                           = 'kevin.';
 $_['text_order_info']                      = 'Užsakymo ID %s';
 $_['text_card_name']                       = 'Keredito/Debeto kortelė';
 $_['text_kevin_payment_method']            = 'Mokėjimo būdas: %s';

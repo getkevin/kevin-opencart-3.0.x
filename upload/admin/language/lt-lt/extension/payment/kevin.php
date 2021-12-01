@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x  
+* 2020 kevin. payment  for OpenCart version 3.0.x.x  
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -15,15 +15,15 @@
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
 // Heading
-$_['heading_title']                = '<span style="font-weight: 700; color:red;">Kevin. </span> Mokėjimai (versija 1.0.1.4)';
+$_['heading_title']                = '<span style="font-weight: 700; color:red;">kevin. </span> Mokėjimai (versija 1.0.1.4)';
 
 // Text 
 $_['text_payment']                 = 'Mokėjimai';
-$_['text_edit']                    = 'Redaguoti Kevin. mokėjimo modulį';
+$_['text_edit']                    = 'Redaguoti kevin. mokėjimo modulį';
 $_['text_extension']               = 'Moduliai';
-$_['text_success']                 = 'Sėkmė: Jūs modifikavote Kevin modulį!';
+$_['text_success']                 = 'Sėkmė: Jūs modifikavote kevin. modulį!';
 $_['text_clear_success']           = 'Sėkmė: sėkmingai išvalėte veiksmų žurnalą!';
-$_['text_kevin']                   = '<a href="https://www.getkevin.eu/" target="_blank"><img src="view/image/payment/kevin.png" alt="Kevin" title="Kevin" style="border: 0px solid #ffffff; height: 30px;" /></a>';
+$_['text_kevin']                   = '<a href="https://www.kevin.eu/" target="_blank"><img src="view/image/payment/kevin.png" alt="kevin." title="kevin." style="border: 0px solid #ffffff; height: 30px;" /></a>';
 $_['text_right']                   = 'Dešinėje';
 $_['text_left']                    = 'Kairėje';
 $_['text_select_status']           = '-Pasirinkite būseną-';
