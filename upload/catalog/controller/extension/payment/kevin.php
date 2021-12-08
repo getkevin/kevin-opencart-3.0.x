@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x
+* 2020 kevin. payment  for OpenCart version 3.0.x.x
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -218,7 +218,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 		
 		$total = $this->currency->format($order_info['total'], $order_info['currency_code'], $order_info['currency_value'], false, false);
 		
-		// Vendor logo can be added to the payment confirmation, if Kevin API will support it.
+		// Vendor logo can be added to the payment confirmation, if kevin API will support it.
         if ($this->config->get('config_logo') && file_exists(DIR_IMAGE . $this->config->get('config_logo'))) {
             $vendor_logo = $this->config->get('config_url') . 'image/' . $this->config->get('config_logo') . ' ';
         } else {
@@ -302,7 +302,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 				$payment_attr['identifier'] = ['email' => $customer_email];
 			}
 		} else {
-			$log_data = 'Answer on Redirect Kevin... No payment options using this payment method available.';
+			$log_data = 'Answer on Redirect kevin... No payment options using this payment method available.';
 			$this->KevinLog($log_data);
 			$this->session->data['error'] = 'No payment options using this payment method available.';
 			$this->response->redirect($this->url->link('checkout/cart', '', true));
@@ -314,7 +314,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 		if (!empty($init_payment['id'])) {
 			$payment_id = $init_payment['id'];
 		} else {
-			$log_data = 'Answer on Redirect Kevin... Error Description: '  . $init_payment['error']['description'] . '. Code: '  . $init_payment['error']['code'] . '. Data: '. $init_payment['data'] . '.';
+			$log_data = 'Answer on Redirect kevin... Error Description: '  . $init_payment['error']['description'] . '. Code: '  . $init_payment['error']['code'] . '. Data: '. $init_payment['data'] . '.';
 			$this->KevinLog($log_data);
 			$this->session->data['error'] = $this->language->get('error_kevin_payment') . ' Error Description: '. $init_payment['error']['description'] . '. Code: '. $init_payment['error']['code'] . '. Data: '. $init_payment['data'] . '.';
 			$this->response->redirect($this->url->link('checkout/cart', '', true));
@@ -343,7 +343,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 		$get_payment = $kevinClient->payment()->getPayment($payment_id, $get_payment_attr);
 
 		/*log*/
-		$log_data = 'Answer on Redirect Kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_id . '; Payment Status: ' . $get_payment['statusGroup'] . '; Total: ' . $get_payment['amount'] . $get_payment['currencyCode'] . '; Bank ID: ' . $bank_id . '.';
+		$log_data = 'Answer on Redirect kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_id . '; Payment Status: ' . $get_payment['statusGroup'] . '; Total: ' . $get_payment['amount'] . $get_payment['currencyCode'] . '; Bank ID: ' . $bank_id . '.';
 		$this->KevinLog($log_data);
 		/*
 		if (!empty($order_info['payment_iso_code_2'])) {
@@ -379,14 +379,14 @@ class ControllerExtensionPaymentKevin extends Controller {
             $payment_id = $_POST['paymentId'];
         } else {
             $payment_id = 0;
-			$log_data = 'On the order confirm Payment ID not received from Kevin\'s server!';
+			$log_data = 'On the order confirm Payment ID not received from kevin.\'s server!';
         }
 		
 		if (isset($this->request->get['statusGroup'])) {
             $statusGroup = $this->request->get['statusGroup'];
         } else {
             $statusGroup = false;
-			$log_data = 'On the order confirm/redirect statusGroup not received from Kevin\'s server!';
+			$log_data = 'On the order confirm/redirect statusGroup not received from kevin.\'s server!';
         }
 		
 		if (!$payment_id || !$statusGroup) {
@@ -437,7 +437,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 		}
 		
 		/*log*/
-		$log_data = 'Answer on Confirm Kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_info['order_id'] . '; Payment Status: ' . $new_status  . '.';
+		$log_data = 'Answer on Confirm kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_info['order_id'] . '; Payment Status: ' . $new_status  . '.';
 
         if ($new_status == 'completed') {	
 			$this->response->redirect($this->url->link('checkout/success', '', true));
@@ -576,7 +576,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 
-		$log_data = 'Answer on WebHook Kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_info['order_id'] . '; Payment Status: ' . $new_status . '.';
+		$log_data = 'Answer on WebHook kevin... Payment Method: ' . $payment_method . '; Payment ID: ' . $payment_id . '; Order ID: ' . $order_info['order_id'] . '; Payment Status: ' . $new_status . '.';
 		
 		//$old_status_id = $order_info['order_status_id'];
 		
@@ -803,12 +803,12 @@ class ControllerExtensionPaymentKevin extends Controller {
 			$order_id = 0;
 			$this->KevinRefundLog('An error occurred. The order not yet added to the database, or has been deleted... refund_id does not exist in DB.');
 			header($this->request->server['SERVER_PROTOCOL'] . ' 400 ');
-			exit('refund_id does not exist in DB. To fast response from the Kevin. system.');
+			exit('refund_id does not exist in DB. To fast response from the kevin. system.');
         }
 
 		$order_info = $this->model_checkout_order->getOrder($order_id);
 
-		$log_data = 'Answer on WebHook Kevin...  Payment ID: ' . $payment_id . '; Type: ' . $get_refund_status['type'] . '; Refund Status: ' . $get_refund_status['statusGroup'] . '.';
+		$log_data = 'Answer on WebHook kevin...  Payment ID: ' . $payment_id . '; Type: ' . $get_refund_status['type'] . '; Refund Status: ' . $get_refund_status['statusGroup'] . '.';
 
 		$update_order['statusGroup'] = $get_refund_status['statusGroup'];
 		$update_order['payment_id'] = $payment_id;

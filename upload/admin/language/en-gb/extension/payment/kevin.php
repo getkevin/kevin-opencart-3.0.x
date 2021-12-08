@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x  
+* 2020 kevin. payment  for OpenCart version 3.0.x.x  
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -15,15 +15,15 @@
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
 // Heading
-$_['heading_title']                = '<span style="font-weight: 700; color:red;">Kevin. </span> Payment (version 1.0.1.4)';
+$_['heading_title']                = '<span style="font-weight: 700; color:red;">kevin. </span> Payment (version 1.0.1.4)';
 
 // Text 
 $_['text_payment']                 = 'Payment';
-$_['text_edit']                    = 'Edit Kevin. payment module';
+$_['text_edit']                    = 'Edit kevin. payment module';
 $_['text_extension']               = 'Extensions';
-$_['text_success']                 = 'Success: You have modified Kevin module details!';
+$_['text_success']                 = 'Success: You have modified kevin. module details!';
 $_['text_clear_success']           = 'Success: You have successfully cleared log!';
-$_['text_kevin']                   = '<a href="https://www.getkevin.eu/" target="_blank"><img src="view/image/payment/kevin.png" alt="Kevin" title="Kevin" style="border: 0px solid #ffffff; height: 30px;" /></a>';
+$_['text_kevin']                   = '<a href="https://www.kevin.eu/" target="_blank"><img src="view/image/payment/kevin.png" alt="kevin." title="kevin." style="border: 0px solid #ffffff; height: 30px;" /></a>';
 $_['text_right']                   = 'Right';
 $_['text_left']                    = 'Left';
 $_['text_select_status']           = '-Select Status-';
@@ -42,7 +42,7 @@ $_['entry_client_endpointSecret']  = 'EndpointSecret';
 $_['entry_client_company']         = 'Client Company Name: ';
 $_['entry_client_iban']            = 'Client Accaunt No.: ';
 $_['entry_redirect_preferred']     = 'Redirect Preferred';
-$_['entry_image']                  = 'Payment Kevin Logo Image';
+$_['entry_image']                  = 'Payment kevin. Logo Image';
 $_['entry_image_height']           = 'Max Image Height in px';
 $_['entry_image_width']            = 'Max Image Width in px';
 $_['entry_position']               = 'Payment Logo Position';
@@ -63,7 +63,7 @@ $_['entry_partial_refund_action']  = 'Partially Refunded';
 $_['entry_full_refund_action']     = 'Fully Refunded';
 $_['entry_geo_zone']               = 'Geo Zone:';
 $_['entry_status']                 = 'Status:';
-$_['entry_log']                    = 'Kevin log:';
+$_['entry_log']                    = 'kevin. log:';
 $_['entry_sort_order']             = 'Sort Order:';
 $_['entry_refund_status']          = 'Refund Status';
 $_['entry_payment_log']            = 'Payment log';
@@ -71,7 +71,7 @@ $_['entry_refund_log']             = 'Refund log';
 
 // Error
 $_['error_warning']                = 'Check the settings carefully for errors!';
-$_['error_permission']             = 'Warning: You do not have permission to modify payment Kevin!';
+$_['error_permission']             = 'Warning: You do not have permission to modify payment kevin.!';
 $_['error_client_id']              = 'Client Id Required!';
 $_['error_client_secret']          = 'Client Secret Required!';
 $_['error_client_endpointSecret']  = 'Client Signature Required!';
@@ -95,12 +95,12 @@ $_['error_payment_log_warning']    = 'Warning: Your Payment log file %s is %s!';
 // Help
 $_['help_iban_format']             = 'Account No. format For Lithuania should be two letters and 18 numbers. Example: LT599386327515536498.';
 $_['help_bank_name_enbl']          = 'Enable bank name on checkout page.';
-$_['help_client_id']               = 'Your client ID. Your can get it in Kevin. platform console.';
-$_['help_client_secret']           = 'Your secret code. Your can get it in Kevin. platform console.';
-$_['help_client_endpointSecret']   = 'Your secret signature. Your can get it in Kevin. platform console.';
+$_['help_client_id']               = 'Your client ID. Your can get it in kevin. platform console.';
+$_['help_client_secret']           = 'Your secret code. Your can get it in kevin. platform console.';
+$_['help_client_endpointSecret']   = 'Your secret signature. Your can get it in kevin. platform console.';
 $_['help_bank_title']              = 'You can only add a bank logo instead of a Payment Method Title.';
 $_['help_total']                   = 'The checkout total the order must reach before this payment method becomes active.';
-$_['help_log']                     = 'If &quot;Kevin log&quot; is enabled kevin_payment.log and kevin_refund.log files will be saved. You can easily check it, download, or clear.';
+$_['help_log']                     = 'If &quot;kevin. log&quot; is enabled kevin_payment.log and kevin_refund.log files will be saved. You can easily check it, download, or clear.';
 $_['help_width']                   = 'Set the payment logo image  max width in px for &quot;payment method&quot; in checkout payment step. Image height will be changed proportionally.';
 $_['help_height']                  = 'Set the payment logo image  max height in px for &quot;payment method&quot; in checkout payment step. Image width will be changed proportionally.';
 $_['help_position']                = 'Position of the payment method logo next to the payment method name.';

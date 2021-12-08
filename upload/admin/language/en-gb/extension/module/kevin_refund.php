@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x  
+* 2020 kevin. payment  for OpenCart version 3.0.x.x  
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -16,18 +16,18 @@
 */
 
 // Heading
-$_['heading_title']              = '<span style="font-weight: 700; color:red;">Kevin. </span> Refunds';
+$_['heading_title']              = '<span style="font-weight: 700; color:red;">kevin. </span> Refunds';
 
 // Text
 $_['text_store']                 = 'Store';
-$_['text_success']               = 'Success: You have modified <span style="font-weight: 700; color:red;">Kevin. </span> Refunds!';
+$_['text_success']               = 'Success: You have modified <span style="font-weight: 700; color:red;">kevin. </span> Refunds!';
 $_['text_list']                  = 'Order List';
 $_['text_order_detail']          = 'Order Details';
 $_['text_customer_detail']       = 'Customer Details';
 $_['text_refund_history']        = 'Refund History';
 $_['text_refund_available']      = 'Amount available for refund';
 $_['text_refunded']              = 'Amount already refunded Total:';
-$_['text_refund_order_id']       = '<span style="font-weight: 700; color:red;">Kevin.</span> Refund... Order ID:';
+$_['text_refund_order_id']       = '<span style="font-weight: 700; color:red;">kevin.</span> Refund... Order ID:';
 $_['text_product_restock']       = 'Restock: ';
 $_['text_Qty']                   = 'Qty: ';
 $_['text_refund_amount']         = 'Enter amount for refund';
@@ -67,7 +67,7 @@ $_['button_edit']                = 'Edit';
 $_['button_cancel']              = 'Cancel';
 
 // Column
-$_['column_refund_id']           = 'Kevin.\'s Refund ID';
+$_['column_refund_id']           = 'kevin.\'s Refund ID';
 $_['column_order_id']            = 'Order ID';
 $_['column_customer']            = 'Customer';
 $_['column_status']              = 'Status';
@@ -109,6 +109,6 @@ $_['entry_date_modified']        = 'Date Modified';
 
 // Error
 $_['error_warning']              = 'Warning: Please check the form carefully for errors!';
-$_['error_permission']           = 'Warning: You do not have permission to modify Kevin. Refunds!';
+$_['error_permission']           = 'Warning: You do not have permission to modify kevin. Refunds!';
 $_['error_action']               = 'Warning: Could not complete this action!';
 $_['error_filetype']			 = 'Invalid file type!';

@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x 
+* 2020 kevin. payment  for OpenCart version 3.0.x.x 
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -16,17 +16,17 @@
 */
 
 // Heading 
-$_['heading_title']                     = '<span style="font-weight: 700; color:red;">Kevin. </span> grąžinimai';
+$_['heading_title']                     = '<span style="font-weight: 700; color:red;">kevin. </span> grąžinimai';
 
 // Text
 $_['entry_store']                       = 'Parduotuvė';
-$_['text_success']                      = 'Sėkmė: Jūs modifikavote <span style="font-weight: 700; color:red;">Kevin. </span> Grąžinimus!';
+$_['text_success']                      = 'Sėkmė: Jūs modifikavote <span style="font-weight: 700; color:red;">kevin. </span> Grąžinimus!';
 $_['text_list']                         = 'Užsakymų sąrašas';
 $_['text_order_detail']                 = 'Užsakymo detalės';
 $_['text_refund_history']               = 'Grąžinimo istorija';
 $_['text_refund_available']             = 'Grąžinimui galima suma';
 $_['text_refunded']                     = 'Grąžinta suma Viso:';
-$_['text_refund_order_id']              = '<span style="font-weight: 700; color:red;">Kevin.</span> Mokėjimo grąžinimas... Užsakymo ID:';
+$_['text_refund_order_id']              = '<span style="font-weight: 700; color:red;">kevin.</span> Mokėjimo grąžinimas... Užsakymo ID:';
 $_['text_product_restock']              = 'Grąžinti į sandėlį: ';
 $_['text_Qty']                          = 'Kiekis: ';
 $_['text_refund_amount']                = 'Įveskite sumą grąžinimui';
@@ -67,7 +67,7 @@ $_['button_edit']                       = 'Taisyti';
 $_['button_cancel']                     = 'Atšaukti';
 
 // Column
-$_['column_refund_id']                  = 'Kevin. Refund ID';
+$_['column_refund_id']                  = 'kevin. Refund ID';
 $_['column_order_id']                   = 'Užsakymo nr.';
 $_['column_customer']                   = 'Klientas';
 $_['column_refund_status']              = 'Grąžinimo statusas';

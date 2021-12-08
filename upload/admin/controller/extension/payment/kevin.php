@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 Kevin. payment  for OpenCart version 3.0.x.x 
+* 2020 kevin. payment  for OpenCart version 3.0.x.x 
 * @version 1.0.1.4
 *
 * NOTICE OF LICENSE
@@ -76,13 +76,13 @@ class ControllerExtensionPaymentKevin extends Controller {
 
 		$data['error_client'] = '';
 
-		if (empty($project['allowedRefundsFor']) || empty($project['allowedRefundsFor'])) {
+		if (empty($project['allowedRefundsFor']) && empty($project['paymentMethods'])) {
 			if (!empty($project['error']['code'])) {
-				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">Kevin. </span> Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code'] . '. Make sure the credentials you entered are correct.';
+				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">kevin. </span> Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code'] . '. Make sure the credentials you entered are correct.';
 			} else if (!empty($project['empty'])) {
 				$data['error_client'] = $project['empty'];
 			} else {
-				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">Kevin. </span> due to server error!';
+				$data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">kevin. </span> due to server error!';
 			}
 		} 
 		
@@ -107,7 +107,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 		} 
 		
 		if (!empty($project['isSandbox'])) {
-			$data['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">Kevin.</span> payment gateway is set to sandbox mode. For testing purposes only. Actual payments not available!';
+			$data['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">kevin.</span> payment gateway is set to sandbox mode. For testing purposes only. Actual payments not available!';
 		} else {
 			$data['text_sandbox_alert'] = '';
 		}
