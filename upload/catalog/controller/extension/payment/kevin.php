@@ -225,14 +225,13 @@ class ControllerExtensionPaymentKevin extends Controller {
             $vendor_logo = '';
         }
 		//('<img src="' . $vendor_logo . '" style="height: 32px width: auto;" />')
-		//$confirm_url = $this->url->link('extension/payment/kevin/confirm', '', true);
-        //$webhook_url = $this->url->link('extension/payment/kevin/webhook', '', true);
+		$confirm_url = $this->url->link('extension/payment/kevin/confirm', '', true);
 
 		if (!empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 1) {
-			$confirm_url = HTTPS_SERVER . 'index.php?route=extension/payment/kevin/confirm';
+		//	$confirm_url = HTTPS_SERVER . 'index.php?route=extension/payment/kevin/confirm';
         	$webhook_url = HTTPS_SERVER . 'index.php?route=extension/payment/kevin/webhook';
 		} else {
-			$confirm_url = HTTP_SERVER . 'index.php?route=extension/payment/kevin/confirm';
+		//	$confirm_url = HTTP_SERVER . 'index.php?route=extension/payment/kevin/confirm';
         	$webhook_url = HTTP_SERVER . 'index.php?route=extension/payment/kevin/webhook';
 		}
 		
