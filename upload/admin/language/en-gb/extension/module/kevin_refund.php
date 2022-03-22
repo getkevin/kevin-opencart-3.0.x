@@ -61,7 +61,7 @@ $_['text_restock'] = 'Success: Products have been restocked!';
 $_['text_upload'] = 'Your file was successfully uploaded!';
 $_['text_restocked_products'] = 'Restocked Products';
 
-//Button
+// Button
 $_['button_refund'] = 'Create Refund';
 $_['button_edit'] = 'Edit';
 $_['button_cancel'] = 'Cancel';
@@ -86,9 +86,9 @@ $_['column_model'] = 'Model';
 $_['column_quantity'] = 'Quantity';
 $_['column_restocked_quantity'] = 'Quantity Restocked';
 $_['column_price'] = 'Unit Price (stock)';
-//$_['column_comment']             = 'Comment';
+// $_['column_comment']             = 'Comment';
 $_['column_action'] = 'Action';
-//$_['column_weight']              = 'Product Weight';
+// $_['column_weight']              = 'Product Weight';
 $_['column_image'] = 'Image';
 $_['column_name'] = 'Product name';
 

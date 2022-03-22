@@ -31,15 +31,15 @@ $_['text_reason'] = 'Refunded on: %s';
 $_['text_subject'] = '%s has refunded your money. Order ID: %s';
 $_['text_thank_you'] = 'Thank You for buying <br /> <strong>%s</strong>';
 
-//errors
+// Errors
 $_['error_currency'] = 'Only &euro; currency are allowed for this payment method. Please select a currency <strong>&euro;</strong>.';
 $_['error_bank'] = 'Bank not selected! Choose your bank.';
 $_['error_kevin_payment'] = 'An error occurred. Please contact the merchant for more information, or try another payment method.';
 $_['error_kevin_payment_id'] = 'An error occurred. Payment ID was not returned from the payment system. Please contact the merchant for more information.';
 
-//Button
+// Button
 $_['button_confirm'] = 'Confirm Order';
 $_['button_search'] = 'Search Autocomplete';
 
-//Help
+// Help
 $_['help_serch_bank'] = 'Search Bank';

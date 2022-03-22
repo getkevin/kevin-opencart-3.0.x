@@ -70,10 +70,10 @@ class ControllerExtensionPaymentKevin extends Controller
         }
 
         $countries = $kevinClient->auth()->getCountries();
-        //$countryCodes = array("LT", "LV", "EE");
+        // $countryCodes = array("LT", "LV", "EE");
         $countryCodes = $countries['data'];
 
-        //select  country for banks
+        // select  country for banks
         $this->load->model('localisation/country');
 
         $countries = $this->model_localisation_country->getCountries();
@@ -98,7 +98,7 @@ class ControllerExtensionPaymentKevin extends Controller
         //	echo '<pre>'; print_r($project_settings); echo '</pre>';
         $payment_methods = $project_settings['paymentMethods'];
 
-        //card first
+        // card first
         function cmp($a, $b)
         {
             if ('card' != $a) {
@@ -229,7 +229,7 @@ class ControllerExtensionPaymentKevin extends Controller
         } else {
             $vendor_logo = '';
         }
-        //('<img src="' . $vendor_logo . '" style="height: 32px width: auto;" />')
+        // ('<img src="' . $vendor_logo . '" style="height: 32px width: auto;" />')
         $confirm_url = $this->url->link('extension/payment/kevin/confirm', '', true);
 
         if (!empty($_SERVER['HTTPS']) || 1 == $_SERVER['HTTPS']) {
@@ -342,7 +342,7 @@ class ControllerExtensionPaymentKevin extends Controller
         $get_payment_attr = ['PSU-IP-Address' => $ip_address];
         $get_payment = $kevinClient->payment()->getPayment($payment_id, $get_payment_attr);
 
-        /*log*/
+        /* log */
         $log_data = 'Answer on Redirect kevin... Payment Method: '.$payment_method.'; Payment ID: '.$payment_id.'; Order ID: '.$order_id.'; Payment Status: '.$get_payment['statusGroup'].'; Total: '.$get_payment['amount'].$get_payment['currencyCode'].'; Bank ID: '.$bank_id.'.';
         $this->KevinLog($log_data);
         /*
@@ -360,7 +360,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $lang = 'en';
         }
         unset($this->session->data['order_id']);
-        //header('Location:' . $init_payment['confirmLink'] . '&amp;lang=' . $lang);
+        // header('Location:' . $init_payment['confirmLink'] . '&amp;lang=' . $lang);
         $this->response->redirect($init_payment['confirmLink'].'&amp;lang='.$lang);
     }
 
@@ -437,7 +437,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->response->redirect($this->url->link('checkout/cart', '', true));
         }
 
-        /*log*/
+        /* log */
         $log_data = 'Answer on Confirm kevin... Payment Method: '.$payment_method.'; Payment ID: '.$payment_id.'; Order ID: '.$order_info['order_id'].'; Payment Status: '.$new_status.'.';
 
         if ('completed' == $new_status) {
@@ -474,7 +474,7 @@ class ControllerExtensionPaymentKevin extends Controller
 
         $payment_id = $get_payment_status['id'];
 
-        //Validate Signature
+        // Validate Signature
         if (!empty($_SERVER['HTTPS']) || 1 == $_SERVER['HTTPS']) {
             $webhook_url = HTTPS_SERVER.'index.php?route=extension/payment/kevin/webhook';
         } else {
@@ -518,7 +518,7 @@ class ControllerExtensionPaymentKevin extends Controller
         $this->KevinLog('Generated Signature: '.$signature);
         $this->KevinLog('X-Kevin-Signature: '.$kevin_signature);
 
-        //Timestamp in milliseconds
+        // Timestamp in milliseconds
         $timestampTimeout = 300000;
         $isValid = \Kevin\SecurityManager::verifySignature($endpointSecret, $webhook_data, $headers, $webhook_url, $timestampTimeout);
 
@@ -582,7 +582,7 @@ class ControllerExtensionPaymentKevin extends Controller
 
         $log_data = 'Answer on WebHook kevin... Payment Method: '.$payment_method.'; Payment ID: '.$payment_id.'; Order ID: '.$order_info['order_id'].'; Payment Status: '.$new_status.'.';
 
-        //$old_status_id = $order_info['order_status_id'];
+        // $old_status_id = $order_info['order_status_id'];
 
         if ('card' == $payment_method) {
             $update_order['status'] = !empty($get_payment_status['hybridStatus']) ? $get_payment_status['hybridStatus'] : $get_payment_status['cardStatus'];
@@ -751,7 +751,7 @@ class ControllerExtensionPaymentKevin extends Controller
         $refund_id = $get_refund_status['id'];
         $payment_id = $get_refund_status['paymentId'];
 
-        //Validate Signature
+        // Validate Signature
         if (!empty($_SERVER['HTTPS']) || 1 == $_SERVER['HTTPS']) {
             $webhook_url = HTTPS_SERVER.'index.php?route=extension/payment/kevin/webhookRefund';
         } else {
@@ -795,7 +795,7 @@ class ControllerExtensionPaymentKevin extends Controller
         $this->KevinRefundLog('Generated Signature: '.$signature);
         $this->KevinRefundLog('X-Kevin-Signature: '.$kevin_signature);
 
-        //Timestamp in milliseconds
+        // Timestamp in milliseconds
         $timestampTimeout = 300000;
         $isValid = \Kevin\SecurityManager::verifySignature($endpointSecret, $webhook_data, $headers, $webhook_url, $timestampTimeout);
 
@@ -828,7 +828,7 @@ class ControllerExtensionPaymentKevin extends Controller
             header($this->request->server['SERVER_PROTOCOL'].' 200 ');
         } else {
             if ('completed' != $get_refund_status['statusGroup']) {
-                $query_refunded_order_status = $this->model_extension_payment_kevin->updateWebhookKevinRefund($update_order); //do not change statusGroup till signatures match
+                $query_refunded_order_status = $this->model_extension_payment_kevin->updateWebhookKevinRefund($update_order); // do not change statusGroup till signatures match
             }
             $query_refunded_order_status = false;
             $payment_status = false;
@@ -840,13 +840,13 @@ class ControllerExtensionPaymentKevin extends Controller
         $refund_query = $this->model_extension_payment_kevin->getKevinRefunds($payment_id, $refund_id);
 
         $refund_amount = $this->currency->format($refund_query['amount'], $refund_query['currency_code'], 1);
-        //$comment = sprintf($this->language->get('text_kevin_payment_method'), ucfirst($refund_query['payment_method'])) . $bank_id . "\n";
+        // $comment = sprintf($this->language->get('text_kevin_payment_method'), ucfirst($refund_query['payment_method'])) . $bank_id . "\n";
         $comment = '';
         $comment = sprintf($this->language->get('text_amount_received'), $refund_amount).\PHP_EOL;
         $comment .= sprintf($this->language->get('text_refund_status'), ucfirst($refund_query['statusGroup'])).\PHP_EOL;
         $comment .= sprintf($this->language->get('text_payment_id'), $refund_query['payment_id']).\PHP_EOL;
 
-        //changing order status for fully refunded order
+        // changing order status for fully refunded order
         if ($query_refunded_order_status) {
             $this->model_checkout_order->addOrderHistory($order_id, $query_refunded_order_status, $comment, $refund_query['notify_refund']);
         }
@@ -872,7 +872,7 @@ class ControllerExtensionPaymentKevin extends Controller
         }
     }
 
-    //Send mail
+    // Send mail
     public function sendMail($email_from, $subject, $body, $order_info, $store_name)
     {
         $this->load->model('setting/setting');
@@ -898,7 +898,7 @@ class ControllerExtensionPaymentKevin extends Controller
         $message .= '  <body>';
         $message .= $logo_view.'<br /><br /><br />';
         $message .= html_entity_decode($body, \ENT_QUOTES, 'UTF-8');
-        //$message .= $body;
+        // $message .= $body;
         $message .= '</body>'."\n";
         $message .= '</html>'."\n";
 
@@ -920,7 +920,7 @@ class ControllerExtensionPaymentKevin extends Controller
         return true;
     }
 
-    /*refund log*/
+    /* refund log */
     public function KevinRefundLog($log_data)
     {
         if ($this->config->get('payment_kevin_log')) {
@@ -930,7 +930,7 @@ class ControllerExtensionPaymentKevin extends Controller
         }
     }
 
-    /*payment log*/
+    /* payment log */
     public function KevinLog($log_data)
     {
         if ($this->config->get('payment_kevin_log')) {

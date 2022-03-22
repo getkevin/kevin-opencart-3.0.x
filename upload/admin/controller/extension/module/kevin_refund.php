@@ -39,7 +39,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
     public function index()
     {
         $this->load->model('extension/payment/kevin');
-        //checking if kevin DB is updated on module update/reinstall.
+        // checking if kevin DB is updated on module update/reinstall.
         $DB_query = $this->model_extension_payment_kevin->checkKevinDB();
 
         if ($DB_query) {
@@ -256,7 +256,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             'filter_customer' => $filter_customer,
             'filter_order_status' => $filter_order_status,
             'filter_total' => $filter_total,
-            //'filter_total_amount'     => $filter_total_amount,
+            // 'filter_total_amount'     => $filter_total_amount,
             'filter_date_added' => $filter_date_added,
             'filter_date_modified' => $filter_date_modified,
             'sort' => $sort,
@@ -298,7 +298,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 ];
             }
 
-            //Checking if refund is still available on project setting days limit
+            // Checking if refund is still available on project setting days limit
             $date = new DateTime('now');
             $date = $date->format('Y-m-d H:i:s');
 
@@ -511,7 +511,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
 
         if (empty($project['allowedRefundsFor'])) {
             $data['error_client'] = 'Can not connect to <span style="font-weight: 600; color:red;">kevin. </span> Error: '.$project['error']['name'].'.  Error code: '.$project['error']['code'];
-            //$this->KevinRefundLog('Can not connect to kevin.  Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code']);
+            // $this->KevinRefundLog('Can not connect to kevin.  Error: ' . $project['error']['name'] . '.  Error code: ' . $project['error']['code']);
             $project_settings = false;
         } else {
             $data['error_client'] = '';
@@ -593,7 +593,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $data['amount_0'] = $this->currency->format('0', $order_info['currency_code'], $order_info['currency_value']);
 
             $query_refunded = $this->model_extension_module_kevin_refund->getRefundOrderAmount($order_id);
-            //echo '<pre>'; print_r($query_refund); echo '</pre>';
+            // echo '<pre>'; print_r($query_refund); echo '</pre>';
             $data['amount'] = $this->currency->format($query_refunded['total_amount'], $query_refund['currency_code'], 1);
 
             $amount_available = $query_refund['total'] - $query_refunded['total_amount'];
@@ -673,11 +673,11 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $data['success_refund'] = '';
             }
 
-            //restocked products
+            // restocked products
             $this->load->model('tool/image');
 
             $results = $this->model_extension_module_kevin_refund->getRestockedProducts($order_id);
-            //$this->model_extension_module_kevin_refund->getRestockProducts($order_id);	//test
+            // $this->model_extension_module_kevin_refund->getRestockProducts($order_id);	//test
             $data['restocked_products'] = [];
 
             foreach ($results as $result) {
@@ -1050,7 +1050,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $paymentId = $this->request->post['payment_id'];
 
             $kevin_order_info = $this->model_extension_module_kevin_refund->getKevinOrder($paymentId);
-            //echo '<pre>refund add: '; print_r($kevin_order_info); echo '</pre>';	die;
+            // echo '<pre>refund add: '; print_r($kevin_order_info); echo '</pre>';	die;
 
             $refund_amount = str_replace(',', '.', $this->request->post['kevin_refund_amount']);
 
@@ -1131,7 +1131,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
         }
     }
 
-    /*refund log*/
+    /* refund log */
     public function KevinRefundLog($log_data)
     {
         if ($this->config->get('payment_kevin_log')) {

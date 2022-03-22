@@ -119,7 +119,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['text_sandbox_alert'] = '';
         }
 
-        //checking if kevin DB is updated on module update/reinstall.
+        // checking if kevin DB is updated on module update/reinstall.
         $DB_query = $this->model_extension_payment_kevin->checkKevinDB();
 
         if ($DB_query) {
@@ -185,7 +185,6 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['error_client_endpointSecret'] = '';
         }
 
-        ////
         if (isset($this->error['started_status'])) {
             $data['error_started_status'] = $this->error['started_status'];
         } else {
@@ -240,8 +239,6 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['error_refunded_action'] = '';
         }
 
-        //////
-
         if (isset($this->error['client_company'])) {
             $data['error_client_company'] = $this->error['client_company'];
         } else {
@@ -293,7 +290,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['payment_kevin_client_secret'] = $this->config->get('payment_kevin_client_secret');
         }
 
-        //endpointSecret
+        // endpointSecret
         if (isset($this->request->post['payment_kevin_client_endpointSecret'])) {
             $data['payment_kevin_client_endpointSecret'] = $this->request->post['payment_kevin_client_endpointSecret'];
         } else {
@@ -498,7 +495,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['payment_kevin_refunded_action_id'] = $this->config->get('payment_kevin_refunded_action_id');
         }
 
-        //refund log view
+        // refund log view
         $data['download_refund_log'] = $this->url->link('extension/payment/kevin/download_refund_log', 'user_token='.$this->session->data['user_token'], true);
         $data['clear_refund_log'] = $this->url->link('extension/payment/kevin/clear_refund_log', 'user_token='.$this->session->data['user_token'], true);
 
@@ -537,7 +534,7 @@ class ControllerExtensionPaymentKevin extends Controller
             }
         }
 
-        //payment log view
+        // payment log view
         $data['download_payment_log'] = $this->url->link('extension/payment/kevin/download_payment_log', 'user_token='.$this->session->data['user_token'], true);
         $data['clear_payment_log'] = $this->url->link('extension/payment/kevin/clear_payment_log', 'user_token='.$this->session->data['user_token'], true);
 
@@ -732,7 +729,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->error['client_company'] = $this->language->get('error_client_company');
         }
 
-        //order statuses
+        // order statuses
         if (empty($this->request->post['payment_kevin_started_status_id'])) {
             $this->error['started_status'] = $this->language->get('error_started_status');
         }
@@ -757,7 +754,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->error['partial_status'] = $this->language->get('error_partial_status');
         }
 
-        //refund actions
+        // refund actions
         if (empty($this->request->post['payment_kevin_created_action_id'])) {
             $this->error['created_action'] = $this->language->get('error_created_action');
         }
