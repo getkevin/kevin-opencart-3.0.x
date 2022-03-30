@@ -40,7 +40,7 @@ class ModelExtensionPaymentKevin extends Model
 
         $project_settings = $kevinClient->auth()->getProjectSettings();
 
-        if (!empty($project_settings['error']['code']) && ('401' == $project_settings['error']['code'] || '400' == $project_settings['error']['code'])) {
+        if (!empty($project_settings['error']['code']) && ($project_settings['error']['code'] == '401' || $project_settings['error']['code'] == '400')) {
             $status = false;
 
             return;
@@ -92,7 +92,7 @@ class ModelExtensionPaymentKevin extends Model
             $kevin_image = '';
         }
 
-        if ('right' == $this->config->get('payment_kevin_position')) {
+        if ($this->config->get('payment_kevin_position') == 'right') {
             $title = $this->config->get('payment_kevin_title'.$current_language).'&nbsp;&nbsp;'.$kevin_image;
         } else {
             $title = $kevin_image.$this->config->get('payment_kevin_title'.$current_language);
@@ -173,9 +173,9 @@ class ModelExtensionPaymentKevin extends Model
         $total_amount = number_format((float) $query_refunded->row['total_amount'], 2, '.', '');
         $total = number_format((float) $query_refunded->row['total'], 2, '.', '');
 
-        if ('completed' != $data['statusGroup']) {
+        if ($data['statusGroup'] != 'completed') {
             $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_created_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
-        } elseif ($total_amount == $total && 'completed' == $data['statusGroup']) {
+        } elseif ($total_amount == $total && $data['statusGroup'] == 'completed') {
             $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_refunded_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
             $order_status = $this->config->get('payment_kevin_refunded_status_id');
         } else {

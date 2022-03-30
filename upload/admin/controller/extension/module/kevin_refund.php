@@ -99,10 +99,10 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $payment_methods = $project['allowedRefundsFor'];
             function cmp($a, $b)
             {
-                if ('card' != $a) {
+                if ($a != 'card') {
                     return 1;
                 }
-                if ('card' != $b) {
+                if ($b != 'card') {
                     return -1;
                 }
 
@@ -407,7 +407,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $url .= '&filter_date_modified='.$this->request->get['filter_date_modified'];
         }
 
-        if ('ASC' == $order) {
+        if ($order == 'ASC') {
             $url .= '&order=DESC';
         } else {
             $url .= '&order=ASC';
@@ -565,7 +565,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $url .= '&filter_date_modified='.$this->request->get['filter_date_modified'];
         }
 
-        if ('ASC' == $order) {
+        if ($order == 'ASC') {
             $url .= '&order=DESC';
         } else {
             $url .= '&order=ASC';
@@ -630,7 +630,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $total = $this->currency->convert((float) ($query_refund['total']), $this->config->get('config_currency'), $result['currency_code']);
 
                 $total_amount = $result['amount'];
-                if ('completed' != $result['statusGroup']) {
+                if ($result['statusGroup'] != 'completed') {
                     $refunded_amount = $total_amount - $result['amount'];
                 } else {
                     $refunded_amount = $total_amount;
@@ -692,7 +692,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $product_specials = $this->model_catalog_product->getProductSpecials($result['product_id']);
 
                 foreach ($product_specials  as $product_special) {
-                    if (('0000-00-00' == $product_special['date_start'] || strtotime($product_special['date_start']) < time()) && ('0000-00-00' == $product_special['date_end'] || strtotime($product_special['date_end']) > time())) {
+                    if (($product_special['date_start'] == '0000-00-00' || strtotime($product_special['date_start']) < time()) && ($product_special['date_end'] == '0000-00-00' || strtotime($product_special['date_end']) > time())) {
                         $special = $product_special['price'];
 
                         break;
@@ -783,7 +783,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $data['store_id'] = $order_info['store_id'];
             $data['store_name'] = $order_info['store_name'];
 
-            if (0 == $order_info['store_id']) {
+            if ($order_info['store_id'] == 0) {
                 $data['store_url'] = $this->request->server['HTTPS'] ? HTTPS_CATALOG : HTTP_CATALOG;
             } else {
                 $data['store_url'] = $order_info['store_url'];
@@ -835,7 +835,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $options = $this->model_sale_order->getOrderOptions($this->request->get['order_id'], $product['order_product_id']);
 
                 foreach ($options as $option) {
-                    if ('file' != $option['type']) {
+                    if ($option['type'] != 'file') {
                         $option_data[] = [
                             'name' => $option['name'],
                             'value' => $option['value'],
@@ -945,7 +945,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 if (!empty($value['name'])) {
                     //	$value['name'];
                 }
-                if (0 == $value['restock_quantity']) {
+                if ($value['restock_quantity'] == 0) {
                     $value['restock_quantity'] = 0;
                 }
                 $product_array[] = [
@@ -1054,7 +1054,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
 
             $refund_amount = str_replace(',', '.', $this->request->post['kevin_refund_amount']);
 
-            if (!empty($_SERVER['HTTPS']) || 1 == $_SERVER['HTTPS']) {
+            if (!empty($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 1) {
                 $webhook_url = HTTPS_CATALOG.'index.php?route=extension/payment/kevin/webhookRefund';
             } else {
                 $webhook_url = HTTP_CATALOG.'index.php?route=extension/payment/kevin/webhookRefund';

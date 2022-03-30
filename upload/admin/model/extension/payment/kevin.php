@@ -67,7 +67,7 @@ class ModelExtensionPaymentKevin extends Model
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;');
 
         $check_payment_id = $this->db->query("SELECT DATA_TYPE FROM information_schema.COLUMNS WHERE TABLE_NAME = '".DB_PREFIX."kevin_order' AND COLUMN_NAME = 'payment_id'");
-        if ($check_payment_id->num_rows && ('int' == $check_payment_id->row['DATA_TYPE'] || 'INT' == $check_payment_id->row['DATA_TYPE'])) {
+        if ($check_payment_id->num_rows && ($check_payment_id->row['DATA_TYPE'] == 'int' || $check_payment_id->row['DATA_TYPE'] == 'INT')) {
             $this->db->query('ALTER TABLE `'.DB_PREFIX.'kevin_order` MODIFY COLUMN `payment_id`	varchar(128) DEFAULT NULL');
         }
 
