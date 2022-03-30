@@ -25,7 +25,7 @@ class ModelExtensionModuleKevinRefund extends Model
         $total_amount = number_format((float) $query_refunded->row['total_amount'], 2, '.', '');
         $total = number_format((float) $query_refunded->row['total'], 2, '.', '');
 
-        if ('completed' != $data['statusGroup']) {
+        if ($data['statusGroup'] != 'completed') {
             $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_created_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
         } elseif ($total_amount == $total) {
             $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_refunded_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
@@ -107,7 +107,7 @@ class ModelExtensionModuleKevinRefund extends Model
 
         // $sql .= " GROUP BY ko.order_id ";
 
-        if (isset($data['order']) && ('DESC' == $data['order'])) {
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
             $sql .= ' DESC';
         } else {
             $sql .= ' ASC';
@@ -197,7 +197,7 @@ class ModelExtensionModuleKevinRefund extends Model
 
         $restocked_products = [];
         foreach ($restocked_product_ids as $product_id => $value) {
-            if (!empty($value) || 0 == $value) {
+            if (!empty($value) || $value == 0) {
                 $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $product_id."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
 
                 $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
@@ -217,7 +217,7 @@ class ModelExtensionModuleKevinRefund extends Model
 
         $products = [];
         foreach ($restocked_products as $product) {
-            if (0 != $product['restocked_quantity']) {
+            if ($product['restocked_quantity'] != 0) {
                 $products[] = [
                     'product_id' => $product['product_id'],
                     'image' => $product['image'],
@@ -262,7 +262,7 @@ class ModelExtensionModuleKevinRefund extends Model
         $restocked_products = [];
         if (!empty($restocked_product_ids)) {
             foreach ($restocked_product_ids as $product_id => $value) {
-                if (!empty($value) || 0 == $value) {
+                if (!empty($value) || $value == 0) {
                     $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $product_id."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
 
                     $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
