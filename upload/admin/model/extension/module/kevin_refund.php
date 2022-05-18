@@ -1,6 +1,6 @@
 <?php
 /*
-* 2020 kevin. payment  for OpenCart version 3.0.x.x 
+* 2020 kevin. payment  for OpenCart version 3.0.x.x
 * @version 1.0.1.5
 *
 * NOTICE OF LICENSE
@@ -9,368 +9,381 @@
 * that is bundled with this package in the file LICENSE.txt.
 * It is also available through the world-wide-web at this URL:
 * http://opensource.org/licenses/afl-3.0.php
-* 
+*
 *  @author 2021 kevin. <help@kevin.eu>
 *  @copyright kevin.
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
-class ModelExtensionModuleKevinRefund extends Model {
-	public function addKevinRefund($data) {
-			
-		$this->db->query("INSERT INTO `" . DB_PREFIX . "kevin_refund` SET payment_id = '" . $this->db->escape($data['payment_id']) . "', order_id = '" . (int)$data['order_id'] . "', amount = '" . (float)$data['refund_amount'] . "', currency_code = '" . $this->db->escape($data['currency_code']) . "', statusGroup = '" . $this->db->escape($data['statusGroup']) . "', kevin_refund_id = '" . (int)$data['kevin_refund_id'] . "', notify_refund = '" . (int)$data['notify_refund'] . "', reason = '" . $this->db->escape($data['reason']) . "', date_added = NOW(), date_modified = NOW()");
-		
-		$query_refunded = $this->db->query("SELECT SUM(kr.amount) total_amount, ko.total, ko.currency_code FROM " . DB_PREFIX . "kevin_order ko LEFT JOIN " . DB_PREFIX . "kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.payment_id = '" . $this->db->escape($data['payment_id']) . "'");
-		
-		$total_amount = number_format((float)$query_refunded->row['total_amount'], 2, '.', '');
-		$total = number_format((float)$query_refunded->row['total'], 2, '.', '');
-		
-		if ($data['statusGroup'] != 'completed') {
-			$this->db->query("UPDATE " . DB_PREFIX . "kevin_order SET refund_action_id = '" . (int)$this->config->get('payment_kevin_created_action_id') . "' WHERE payment_id = '" . $this->db->escape($data['payment_id']) . "'");
-		} else if ($total_amount == $total) {
-			$this->db->query("UPDATE " . DB_PREFIX . "kevin_order SET refund_action_id = '" . (int)$this->config->get('payment_kevin_refunded_action_id') . "' WHERE payment_id = '" . $this->db->escape($data['payment_id']) . "'");
-		} else {
-			$this->db->query("UPDATE " . DB_PREFIX . "kevin_order SET refund_action_id = '" . (int)$this->config->get('payment_kevin_partial_refund_action_id') . "' WHERE payment_id = '" . $this->db->escape($data['payment_id']) . "'");
-		}
+class ModelExtensionModuleKevinRefund extends Model
+{
+    public function addKevinRefund($data)
+    {
+        $this->db->query('INSERT INTO `'.DB_PREFIX."kevin_refund` SET payment_id = '".$this->db->escape($data['payment_id'])."', order_id = '".(int) $data['order_id']."', amount = '".(float) $data['refund_amount']."', currency_code = '".$this->db->escape($data['currency_code'])."', statusGroup = '".$this->db->escape($data['statusGroup'])."', kevin_refund_id = '".(int) $data['kevin_refund_id']."', notify_refund = '".(int) $data['notify_refund']."', reason = '".$this->db->escape($data['reason'])."', date_added = NOW(), date_modified = NOW()");
 
-		if ($data['restock']) {
-			foreach ($data['restock'] as $product_id => $quantity) {
-				if ($quantity) {
-					$this->db->query("UPDATE " . DB_PREFIX . "product SET quantity = quantity + '" .  (int)$quantity . "' WHERE product_id = '" . (int)$product_id . "'");
-					$this->db->query("UPDATE " . DB_PREFIX . "kevin_refund SET restocked_products = '" . $this->db->escape(json_encode($data['restock'])) . "' WHERE kevin_refund_id = '" . (int)$data['kevin_refund_id'] . "'");
-				}
-			}			
-		}
-	}
+        $query_refunded = $this->db->query('SELECT SUM(kr.amount) total_amount, ko.total, ko.currency_code FROM '.DB_PREFIX.'kevin_order ko LEFT JOIN '.DB_PREFIX."kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.payment_id = '".$this->db->escape($data['payment_id'])."'");
 
-	public function getOrders($data = array()) {
-		$sql = "SELECT  o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM " . DB_PREFIX . "order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '" . (int)$this->config->get('config_language_id') . "') AS order_status, o.shipping_code, o.total, ko.currency_code, o.currency_value, o.date_added, o.date_modified, ko.order_id, kr.reason, kr.statusGroup, (SELECT ra.name FROM " . DB_PREFIX . "return_action ra WHERE ra.return_action_id = ko.refund_action_id AND ra.language_id = '" . (int)$this->config->get('config_language_id') . "') AS return_action, sum(kr.amount) total_amount, CASE WHEN sum(kr.amount) IS NULL THEN ko.total ELSE (ko.total - sum(kr.amount)) END AS amount_available, ko.payment_id, ko.total AS kevin_total FROM `" . DB_PREFIX . "kevin_order` ko LEFT JOIN `" . DB_PREFIX . "kevin_refund` kr ON (kr.order_id = ko.order_id) LEFT JOIN `" . DB_PREFIX . "order` o ON (o.order_id = ko.order_id) AND ko.statusGroup = 'completed' ";
+        $total_amount = number_format((float) $query_refunded->row['total_amount'], 2, '.', '');
+        $total = number_format((float) $query_refunded->row['total'], 2, '.', '');
 
-		if (isset($data['filter_order_status'])) {
-			$implode = array();
+        if ($data['statusGroup'] != 'completed') {
+            $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_created_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
+        } elseif ($total_amount == $total) {
+            $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_refunded_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
+        } else {
+            $this->db->query('UPDATE '.DB_PREFIX."kevin_order SET refund_action_id = '".(int) $this->config->get('payment_kevin_partial_refund_action_id')."' WHERE payment_id = '".$this->db->escape($data['payment_id'])."'");
+        }
 
-			$order_statuses = explode(',', $data['filter_order_status']);
+        if ($data['restock']) {
+            foreach ($data['restock'] as $product_id => $quantity) {
+                if ($quantity) {
+                    $this->db->query('UPDATE '.DB_PREFIX."product SET quantity = quantity + '".(int) $quantity."' WHERE product_id = '".(int) $product_id."'");
+                    $this->db->query('UPDATE '.DB_PREFIX."kevin_refund SET restocked_products = '".$this->db->escape(json_encode($data['restock']))."' WHERE kevin_refund_id = '".(int) $data['kevin_refund_id']."'");
+                }
+            }
+        }
+    }
 
-			foreach ($order_statuses as $order_status_id) {
-				$implode[] = "o.order_status_id = '" . (int)$order_status_id . "'";
-			}
+    public function getOrders($data = array())
+    {
+        $sql = "SELECT  o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM ".DB_PREFIX."order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '".(int) $this->config->get('config_language_id')."') AS order_status, o.shipping_code, o.total, ko.currency_code, o.currency_value, o.date_added, o.date_modified, ko.order_id, kr.reason, kr.statusGroup, (SELECT ra.name FROM ".DB_PREFIX."return_action ra WHERE ra.return_action_id = ko.refund_action_id AND ra.language_id = '".(int) $this->config->get('config_language_id')."') AS return_action, sum(kr.amount) total_amount, CASE WHEN sum(kr.amount) IS NULL THEN ko.total ELSE (ko.total - sum(kr.amount)) END AS amount_available, ko.payment_id, ko.total AS kevin_total FROM `".DB_PREFIX.'kevin_order` ko LEFT JOIN `'.DB_PREFIX.'kevin_refund` kr ON (kr.order_id = ko.order_id) LEFT JOIN `'.DB_PREFIX."order` o ON (o.order_id = ko.order_id) AND ko.statusGroup = 'completed' ";
 
-			if ($implode) {
-				$sql .= " WHERE (" . implode(" OR ", $implode) . ")";
-			}
-		} else {
-			$sql .= " WHERE o.order_status_id > '0'";
-		}
+        if (isset($data['filter_order_status'])) {
+            $implode = array();
 
-		if (!empty($data['filter_order_id'])) {
-			$sql .= " AND o.order_id = '" . (int)$data['filter_order_id'] . "'";
-		}
+            $order_statuses = explode(',', $data['filter_order_status']);
 
-		if (!empty($data['filter_customer'])) {
-			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
-		}
+            foreach ($order_statuses as $order_status_id) {
+                $implode[] = "o.order_status_id = '".(int) $order_status_id."'";
+            }
 
-		if (!empty($data['filter_date_added'])) {
-			$sql .= " AND DATE(o.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
-		}
+            if ($implode) {
+                $sql .= ' WHERE ('.implode(' OR ', $implode).')';
+            }
+        } else {
+            $sql .= " WHERE o.order_status_id > '0'";
+        }
 
-		if (!empty($data['filter_date_modified'])) {
-			$sql .= " AND DATE(o.date_modified) = DATE('" . $this->db->escape($data['filter_date_modified']) . "')";
-		}
+        if (!empty($data['filter_order_id'])) {
+            $sql .= " AND o.order_id = '".(int) $data['filter_order_id']."'";
+        }
 
-		if (!empty($data['filter_total'])) {
-			$sql .= " AND o.total = '" . (float)$data['filter_total'] . "'";
-		}
-		/*
-		if (!empty($data['filter_total'])) {
-			$sql .= " AND total_amount = '" . (float)$data['filter_total_amount'] . "'";
-		}
+        if (!empty($data['filter_customer'])) {
+            $sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%".$this->db->escape($data['filter_customer'])."%'";
+        }
+
+        if (!empty($data['filter_date_added'])) {
+            $sql .= " AND DATE(o.date_added) = DATE('".$this->db->escape($data['filter_date_added'])."')";
+        }
+
+        if (!empty($data['filter_date_modified'])) {
+            $sql .= " AND DATE(o.date_modified) = DATE('".$this->db->escape($data['filter_date_modified'])."')";
+        }
+
+        if (!empty($data['filter_total'])) {
+            $sql .= " AND o.total = '".(float) $data['filter_total']."'";
+        }
+        /*
+        if (!empty($data['filter_total'])) {
+            $sql .= " AND total_amount = '" . (float)$data['filter_total_amount'] . "'";
+        }
 */
-		$sort_data = array(
-			'o.order_id',
-			'customer',
-			'order_status',
-			'return_action',
-			'o.date_added',
-			'o.date_modified',
-			'o.total',
-			'total_amount',
-			'amount_available'
-			
-		);
+        $sort_data = array(
+            'o.order_id',
+            'customer',
+            'order_status',
+            'return_action',
+            'o.date_added',
+            'o.date_modified',
+            'o.total',
+            'total_amount',
+            'amount_available',
 
-		if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
-			$sql .= " GROUP BY ko.order_id ORDER BY " . $data['sort'];
-		} else {
-			$sql .= " GROUP BY ko.order_id ORDER BY o.order_id";
-		}
-		
-		//$sql .= " GROUP BY ko.order_id ";
+        );
 
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " ASC";
-		}
+        if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
+            $sql .= ' GROUP BY ko.order_id ORDER BY '.$data['sort'];
+        } else {
+            $sql .= ' GROUP BY ko.order_id ORDER BY o.order_id';
+        }
 
-		if (isset($data['start']) || isset($data['limit'])) {
-			if ($data['start'] < 0) {
-				$data['start'] = 0;
-			}
+        //$sql .= " GROUP BY ko.order_id ";
 
-			if ($data['limit'] < 1) {
-				$data['limit'] = 20;
-			}
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+            $sql .= ' DESC';
+        } else {
+            $sql .= ' ASC';
+        }
 
-			$sql .= " LIMIT " . (int)$data['start'] . "," . (int)$data['limit'];
-		}
-		
+        if (isset($data['start']) || isset($data['limit'])) {
+            if ($data['start'] < 0) {
+                $data['start'] = 0;
+            }
 
-		$query = $this->db->query($sql);
+            if ($data['limit'] < 1) {
+                $data['limit'] = 20;
+            }
 
-		return $query->rows;
-	}
-	
-	public function getRefundOrder($order_id) {
-		$query = $this->db->query("SELECT ko.order_id, ko.payment_id, SUM(kr.amount) total_amount, ko.total, ko.currency_code FROM " . DB_PREFIX . "kevin_order ko LEFT JOIN " . DB_PREFIX . "kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.order_id = '" . (int)$order_id . "'");
+            $sql .= ' LIMIT '.(int) $data['start'].','.(int) $data['limit'];
+        }
 
-		return $query->row;
-	}
-	
-	public function getRefundOrderAmount($order_id) { 
-		$query = $this->db->query("SELECT ko.order_id, ko.payment_id, CASE WHEN kr.statusGroup = 'completed' THEN SUM(kr.amount) ELSE (SUM(kr.amount) - kr.amount) END AS total_amount, ko.total, ko.currency_code FROM " . DB_PREFIX . "kevin_order ko LEFT JOIN " . DB_PREFIX . "kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.order_id = '" . (int)$order_id . "' AND kr.statusGroup = 'completed'");
+        $query = $this->db->query($sql);
 
-		return $query->row;
-	}
-	
-	public function getKevinOrder($payment_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "kevin_order WHERE payment_id = '" . $this->db->escape($payment_id) . "'");
-		return $query->row;
-	}
-	
-	public function getKevinOrderCurrency($order_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "kevin_order WHERE order_id = '" . (int)$order_id . "'");
-		return $query->row;
-	}
-	
-	public function getRefundedOrder($order_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "kevin_refund WHERE order_id = '" . (int)$order_id . "' ORDER BY kevin_refund_id  DESC ");
+        return $query->rows;
+    }
 
-		return $query->rows;
-	}
+    public function getRefundOrder($order_id)
+    {
+        $query = $this->db->query('SELECT ko.order_id, ko.payment_id, SUM(kr.amount) total_amount, ko.total, ko.currency_code FROM '.DB_PREFIX.'kevin_order ko LEFT JOIN '.DB_PREFIX."kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.order_id = '".(int) $order_id."'");
 
-	public function getOrderProducts($order_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_product WHERE order_id = '" . (int)$order_id . "'");
+        return $query->row;
+    }
 
-		return $query->rows;
-	}
-	
-	public function getRestockedProducts($order_id) {
+    public function getRefundOrderAmount($order_id)
+    {
+        $query = $this->db->query("SELECT ko.order_id, ko.payment_id, CASE WHEN kr.statusGroup = 'completed' THEN SUM(kr.amount) ELSE (SUM(kr.amount) - kr.amount) END AS total_amount, ko.total, ko.currency_code FROM ".DB_PREFIX.'kevin_order ko LEFT JOIN '.DB_PREFIX."kevin_refund kr ON (kr.order_id = ko.order_id) WHERE ko.order_id = '".(int) $order_id."' AND kr.statusGroup = 'completed'");
 
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "kevin_refund WHERE order_id = '" . (int)$order_id . "'");
+        return $query->row;
+    }
 
-		$restocked = array();
-		foreach ($query->rows as $value) {
-			if (!empty($value['restocked_products'])) {
-				$product_id_values = json_decode($value['restocked_products'], true);
-				$keys = array();
-				$values = array();
-				foreach ($product_id_values as $key => $value) {
-					$keys[] = $key;
-					$values[] = $value;
-				}
-				$restocked[] = array_combine($keys, $values);
-			}	
-		}
-			
-		$restocked_product_ids = array();
-		array_walk_recursive($restocked, function($item, $key) use (&$restocked_product_ids){
-			$restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ?  $item + $restocked_product_ids[$key] : $item;
-		});
+    public function getKevinOrder($payment_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_order WHERE payment_id = '".$this->db->escape($payment_id)."'");
 
-		$restocked_products = array();
-		foreach ($restocked_product_ids as $product_id => $value) {
-			if (!empty($value) || $value == 0) {
-				$query_products = $this->db->query("SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM " . DB_PREFIX . "product p  LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ");
+        return $query->row;
+    }
 
-				$ordered_quantity = $this->db->query("SELECT quantity FROM `" . DB_PREFIX . "order_product`  WHERE product_id = '" . (int)$product_id . "' AND order_id = '" . (int)$order_id . "'");
-				
-				$restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
-				$restocked = array_merge($query_products->row, $restocked_quantity);
-				$keys = array();
-				$values = array();
-				foreach ($restocked as $key => $val) {
-					$keys[] = $key;
-					$values[] = $val;
-				}
-				
-				$restocked_products[] = array_combine($keys, $values);
-			}
-		}	
+    public function getKevinOrderCurrency($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_order WHERE order_id = '".(int) $order_id."'");
 
-		$products = array();
-		foreach ($restocked_products as $product) {
-			if ($product['restocked_quantity'] != 0) {
-				$products[] = array(
-					'product_id'         => $product['product_id'],
-					'image'              => $product['image'],
-					'name'               => $product['name'],
-					'model'              => $product['model'],
-					'price'              => $product['price'],
-					'quantity'           => $product['quantity'],
-					'restocked_quantity' => $product['restocked_quantity'],
-					'status'             => $product['status'],
-					'ordered_quantity'   => $product['ordered_quantity']
+        return $query->row;
+    }
 
-				);
-			}
-		}
+    public function getRefundedOrder($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_refund WHERE order_id = '".(int) $order_id."' ORDER BY kevin_refund_id  DESC ");
+
+        return $query->rows;
+    }
+
+    public function getOrderProducts($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."order_product WHERE order_id = '".(int) $order_id."'");
+
+        return $query->rows;
+    }
+
+    public function getRestockedProducts($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_refund WHERE order_id = '".(int) $order_id."'");
+
+        $restocked = array();
+        foreach ($query->rows as $value) {
+            if (!empty($value['restocked_products'])) {
+                $product_id_values = json_decode($value['restocked_products'], true);
+                $keys = array();
+                $values = array();
+                foreach ($product_id_values as $key => $value) {
+                    $keys[] = $key;
+                    $values[] = $value;
+                }
+                $restocked[] = array_combine($keys, $values);
+            }
+        }
+
+        $restocked_product_ids = array();
+        array_walk_recursive($restocked, function ($item, $key) use (&$restocked_product_ids) {
+            $restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ? $item + $restocked_product_ids[$key] : $item;
+        });
+
+        $restocked_products = array();
+        foreach ($restocked_product_ids as $product_id => $value) {
+            if (!empty($value) || $value == 0) {
+                $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $product_id."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
+
+                $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
+
+                $restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
+                $restocked = array_merge($query_products->row, $restocked_quantity);
+                $keys = array();
+                $values = array();
+                foreach ($restocked as $key => $val) {
+                    $keys[] = $key;
+                    $values[] = $val;
+                }
+
+                $restocked_products[] = array_combine($keys, $values);
+            }
+        }
+
+        $products = array();
+        foreach ($restocked_products as $product) {
+            if ($product['restocked_quantity'] != 0) {
+                $products[] = array(
+                    'product_id' => $product['product_id'],
+                    'image' => $product['image'],
+                    'name' => $product['name'],
+                    'model' => $product['model'],
+                    'price' => $product['price'],
+                    'quantity' => $product['quantity'],
+                    'restocked_quantity' => $product['restocked_quantity'],
+                    'status' => $product['status'],
+                    'ordered_quantity' => $product['ordered_quantity'],
+
+                );
+            }
+        }
 //echo '<pre>fin'; print_r( $products); echo '</pre>';
-		return $products;
-	}
-	
-	public function getRestockProducts($order_id) {
-	
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "kevin_refund WHERE order_id = '" . (int)$order_id . "'");
+        return $products;
+    }
 
-		$restocked = array();
-		
-		foreach ($query->rows as $value) {
-			$keys = array();
-				$values = array();
-			if (!empty($value['restocked_products'])) {
-				$product_id_values = json_decode($value['restocked_products'], true);
+    public function getRestockProducts($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_refund WHERE order_id = '".(int) $order_id."'");
 
-				$keys = array_keys($product_id_values);
-				$values = array_values($product_id_values);
-					
-				$restocked[] = array_combine($keys, $values);
-			} 
-		}
-				
-		$restocked_product_ids = array();
-		array_walk_recursive($restocked, function($item, $key) use (&$restocked_product_ids){
-			$restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ?  $item + $restocked_product_ids[$key] : $item;
-		});
+        $restocked = array();
 
-		$restocked_products = array();
-		if (!empty($restocked_product_ids)) {
-		foreach ($restocked_product_ids as $product_id => $value) {
-			if (!empty($value) || $value == 0) {
-				$query_products = $this->db->query("SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM " . DB_PREFIX . "product p  LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$product_id . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ");
+        foreach ($query->rows as $value) {
+            $keys = array();
+            $values = array();
+            if (!empty($value['restocked_products'])) {
+                $product_id_values = json_decode($value['restocked_products'], true);
 
-				$ordered_quantity = $this->db->query("SELECT quantity FROM `" . DB_PREFIX . "order_product`  WHERE product_id = '" . (int)$product_id . "' AND order_id = '" . (int)$order_id . "'");
+                $keys = array_keys($product_id_values);
+                $values = array_values($product_id_values);
 
-				$restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
-				$restocked = array_merge($query_products->row, $restocked_quantity);
-				$keys = array();
-				$values = array();
-				foreach ($restocked as $key => $val) {
-					$keys[] = $key;
-					$values[] = $val;
-				}
-				
-				$restocked_products[] = array_combine($keys, $values);
-			}
-		}
-		} else {
-			foreach ($query->rows as $value) { 
-				$query_products = $this->db->query("SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM " . DB_PREFIX . "product p  LEFT JOIN " . DB_PREFIX . "product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '" . (int)$value['product_id'] . "' AND pd.language_id = '" . (int)$this->config->get('config_language_id') . "' ");
+                $restocked[] = array_combine($keys, $values);
+            }
+        }
 
-				$ordered_quantity = $this->db->query("SELECT quantity FROM `" . DB_PREFIX . "order_product`  WHERE product_id = '" . (int)$value['product_id'] . "' AND order_id = '" . (int)$order_id . "'");
-				
-				$restocked_quantity = array('restocked_quantity' => 0, 'ordered_quantity' => $ordered_quantity->row['quantity']);
-				$restocked = array_merge($query_products->row, $restocked_quantity);
-				$keys = array();
-				$values = array();
-				foreach ($restocked as $key => $val) {
-					$keys[] = $key;
-					$values[] = $val;
-				}
-				$restocked_products[] = array_combine($keys, $values);
-			}
-		}	
+        $restocked_product_ids = array();
+        array_walk_recursive($restocked, function ($item, $key) use (&$restocked_product_ids) {
+            $restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ? $item + $restocked_product_ids[$key] : $item;
+        });
 
-		$products = array();
-		foreach ($restocked_products as $product) {
-			$products[] = array(
-				'product_id'         => $product['product_id'],
-				'image'              => $product['image'],
-				'name'               => $product['name'],
-				'model'              => $product['model'],
-				'price'              => $product['price'],
-				'quantity'           => $product['quantity'],
-				'restocked_quantity' => !empty($product['restocked_quantity']) ? $product['restocked_quantity'] : 0,
-				'status'             => $product['status'],
-				'ordered_quantity'   => $product['ordered_quantity']
-			);
-		}
+        $restocked_products = array();
+        if (!empty($restocked_product_ids)) {
+            foreach ($restocked_product_ids as $product_id => $value) {
+                if (!empty($value) || $value == 0) {
+                    $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $product_id."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
 
-		return $products;
-	}
+                    $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
 
-	public function getOrderOptions($order_id, $order_product_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_option WHERE order_id = '" . (int)$order_id . "' AND order_product_id = '" . (int)$order_product_id . "'");
+                    $restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
+                    $restocked = array_merge($query_products->row, $restocked_quantity);
+                    $keys = array();
+                    $values = array();
+                    foreach ($restocked as $key => $val) {
+                        $keys[] = $key;
+                        $values[] = $val;
+                    }
 
-		return $query->rows;
-	}
+                    $restocked_products[] = array_combine($keys, $values);
+                }
+            }
+        } else {
+            foreach ($query->rows as $value) {
+                $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $value['product_id']."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
 
-	public function getOrderVouchers($order_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_voucher WHERE order_id = '" . (int)$order_id . "'");
+                $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $value['product_id']."' AND order_id = '".(int) $order_id."'");
 
-		return $query->rows;
-	}
+                $restocked_quantity = array('restocked_quantity' => 0, 'ordered_quantity' => $ordered_quantity->row['quantity']);
+                $restocked = array_merge($query_products->row, $restocked_quantity);
+                $keys = array();
+                $values = array();
+                foreach ($restocked as $key => $val) {
+                    $keys[] = $key;
+                    $values[] = $val;
+                }
+                $restocked_products[] = array_combine($keys, $values);
+            }
+        }
 
-	public function getOrderTotals($order_id) {
-		$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "order_total WHERE order_id = '" . (int)$order_id . "' ORDER BY sort_order");
+        $products = array();
+        foreach ($restocked_products as $product) {
+            $products[] = array(
+                'product_id' => $product['product_id'],
+                'image' => $product['image'],
+                'name' => $product['name'],
+                'model' => $product['model'],
+                'price' => $product['price'],
+                'quantity' => $product['quantity'],
+                'restocked_quantity' => !empty($product['restocked_quantity']) ? $product['restocked_quantity'] : 0,
+                'status' => $product['status'],
+                'ordered_quantity' => $product['ordered_quantity'],
+            );
+        }
 
-		return $query->rows;
-	}
+        return $products;
+    }
 
-	public function getTotalOrders($data = array()) {
-		$sql = "SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "kevin_order` ko LEFT JOIN `" . DB_PREFIX . "order` o ON(ko.order_id=o.order_id)  AND ko.statusGroup = 'completed' ";
+    public function getOrderOptions($order_id, $order_product_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."order_option WHERE order_id = '".(int) $order_id."' AND order_product_id = '".(int) $order_product_id."'");
 
-		if (isset($data['filter_order_status'])) {
-			$implode = array();
+        return $query->rows;
+    }
 
-			$order_statuses = explode(',', $data['filter_order_status']);
+    public function getOrderVouchers($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."order_voucher WHERE order_id = '".(int) $order_id."'");
 
-			foreach ($order_statuses as $order_status_id) {
-				$implode[] = "o.order_status_id = '" . (int)$order_status_id . "'";
-			}
+        return $query->rows;
+    }
 
-			if ($implode) {
-				$sql .= " WHERE (" . implode(" OR ", $implode) . ")";
-			}
-		} else {
-			$sql .= " WHERE o.order_status_id > '0'";
-		}
+    public function getOrderTotals($order_id)
+    {
+        $query = $this->db->query('SELECT * FROM '.DB_PREFIX."order_total WHERE order_id = '".(int) $order_id."' ORDER BY sort_order");
 
-		if (!empty($data['filter_order_id'])) {
-			$sql .= " AND ko.order_id = '" . (int)$data['filter_order_id'] . "'";
-		}
+        return $query->rows;
+    }
 
-		if (!empty($data['filter_customer'])) {
-			$sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%" . $this->db->escape($data['filter_customer']) . "%'";
-		}
+    public function getTotalOrders($data = array())
+    {
+        $sql = 'SELECT COUNT(*) AS total FROM `'.DB_PREFIX.'kevin_order` ko LEFT JOIN `'.DB_PREFIX."order` o ON(ko.order_id=o.order_id)  AND ko.statusGroup = 'completed' ";
 
-		if (!empty($data['filter_date_added'])) {
-			$sql .= " AND DATE(ko.date_added) = DATE('" . $this->db->escape($data['filter_date_added']) . "')";
-		}
+        if (isset($data['filter_order_status'])) {
+            $implode = array();
 
-		if (!empty($data['filter_date_modified'])) {
-			$sql .= " AND DATE(ko.date_modified) = DATE('" . $this->db->escape($data['filter_date_modified']) . "')";
-		}
+            $order_statuses = explode(',', $data['filter_order_status']);
 
-		if (!empty($data['filter_total'])) {
-			$sql .= " AND o.total = '" . (float)$data['filter_total'] . "'";
-		}
-		/*
-		if (!empty($data['filter_total_amount'])) {
-			$sql .= " AND ko.amount = '" . (float)$data['filter_total_amount'] . "'";
-		}
+            foreach ($order_statuses as $order_status_id) {
+                $implode[] = "o.order_status_id = '".(int) $order_status_id."'";
+            }
+
+            if ($implode) {
+                $sql .= ' WHERE ('.implode(' OR ', $implode).')';
+            }
+        } else {
+            $sql .= " WHERE o.order_status_id > '0'";
+        }
+
+        if (!empty($data['filter_order_id'])) {
+            $sql .= " AND ko.order_id = '".(int) $data['filter_order_id']."'";
+        }
+
+        if (!empty($data['filter_customer'])) {
+            $sql .= " AND CONCAT(o.firstname, ' ', o.lastname) LIKE '%".$this->db->escape($data['filter_customer'])."%'";
+        }
+
+        if (!empty($data['filter_date_added'])) {
+            $sql .= " AND DATE(ko.date_added) = DATE('".$this->db->escape($data['filter_date_added'])."')";
+        }
+
+        if (!empty($data['filter_date_modified'])) {
+            $sql .= " AND DATE(ko.date_modified) = DATE('".$this->db->escape($data['filter_date_modified'])."')";
+        }
+
+        if (!empty($data['filter_total'])) {
+            $sql .= " AND o.total = '".(float) $data['filter_total']."'";
+        }
+        /*
+        if (!empty($data['filter_total_amount'])) {
+            $sql .= " AND ko.amount = '" . (float)$data['filter_total_amount'] . "'";
+        }
 */
-		$query = $this->db->query($sql);
+        $query = $this->db->query($sql);
 
-		return $query->row['total'];
-	}
+        return $query->row['total'];
+    }
 }
