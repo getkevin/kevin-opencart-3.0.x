@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -15,7 +15,7 @@
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
 // Heading
-$_['heading_title'] = '<span style="font-weight: 700; color:red;">kevin. </span> Payment (version 1.0.1.4)';
+$_['heading_title'] = '<span style="font-weight: 700; color:red;">kevin. </span> Payment (version '.KEVIN_VERSION.')';
 
 // Text
 $_['text_payment'] = 'Payment';
@@ -40,7 +40,8 @@ $_['entry_client_id'] = 'Client Id: ';
 $_['entry_client_secret'] = 'Client Secret: ';
 $_['entry_client_endpointSecret'] = 'EndpointSecret';
 $_['entry_client_company'] = 'Client Company Name: ';
-$_['entry_client_iban'] = 'Client Accaunt No.: ';
+$_['error_client_c_symbol'] = 'Special characters in the client name are not acceptable!';
+$_['entry_client_iban'] = 'Client Account No.: ';
 $_['entry_redirect_preferred'] = 'Redirect Preferred';
 $_['entry_image'] = 'Payment kevin. Logo Image';
 $_['entry_image_height'] = 'Max Image Height in px';
@@ -76,6 +77,7 @@ $_['error_client_id'] = 'Client Id Required!';
 $_['error_client_secret'] = 'Client Secret Required!';
 $_['error_client_endpointSecret'] = 'Client Signature Required!';
 $_['error_client_company'] = 'Client Company Name Required!';
+$_['error_client_c_symbol'] = 'Special characters in the client company name are not acceptable!';
 $_['error_client_iban_empty'] = 'Client Account No. Required!';
 $_['error_client_iban_valid'] = 'Client Account No. not valid!';
 $_['error_title'] = 'Payment Title, or Payment logo Required!';

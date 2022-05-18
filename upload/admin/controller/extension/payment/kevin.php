@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -14,27 +14,22 @@
 *  @copyright kevin.
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
+define('KEVIN_VERSION', '1.0.1.5');
 use Kevin\Client;
 
 class ControllerExtensionPaymentKevin extends Controller
 {
-    private $error = [];
+    private $error = array();
 
     private $lib_version = '0.3';
-    private $plugin_version = '1.0.1.4';
+    private $plugin_version = KEVIN_VERSION;
+    private $module_name = 'kevin';
 
     public function install()
     {
         $this->load->model('extension/payment/kevin');
         $this->model_extension_payment_kevin->install();
     }
-
-    /*
-        public function uninstall(){
-            $this->load->model('extension/payment/kevin');
-            $this->model_extension_payment_kevin->uninstall();
-        }
-    */
 
     public function getProjectSettings()
     {
@@ -45,9 +40,9 @@ class ControllerExtensionPaymentKevin extends Controller
         $options = [
             'error' => 'array',
             'version' => $this->lib_version,
-            'pluginVersion' => $this->plugin_version,
+            'pluginVersion' => strval(KEVIN_VERSION),
             'pluginPlatform' => 'OpenCart',
-            'pluginPlatformVersion' => (string) VERSION,
+            'pluginPlatformVersion' => strval(VERSION),
         ];
 
         try {
@@ -67,7 +62,8 @@ class ControllerExtensionPaymentKevin extends Controller
         $this->load->model('extension/payment/kevin');
         $this->load->language('extension/payment/kevin');
 
-        $this->document->setTitle($this->language->get('heading_title'));
+        $this->document->setTitle(strip_tags($this->language->get('heading_title')));
+        $data['heading_title'] = $this->language->get('heading_title');
 
         $this->load->model('setting/setting');
 
@@ -119,15 +115,12 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['text_sandbox_alert'] = '';
         }
 
-        // checking if kevin DB is updated on module update/reinstall.
+        //checking if kevin DB is updated on module update/reinstall.
         $DB_query = $this->model_extension_payment_kevin->checkKevinDB();
 
         if ($DB_query) {
             $this->model_extension_payment_kevin->install();
         }
-
-        $this->document->setTitle(strip_tags($this->language->get('heading_title')));
-        $data['heading_title'] = $this->language->get('heading_title');
 
         $this->load->model('localisation/language');
 
@@ -185,6 +178,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['error_client_endpointSecret'] = '';
         }
 
+        ////
         if (isset($this->error['started_status'])) {
             $data['error_started_status'] = $this->error['started_status'];
         } else {
@@ -239,6 +233,8 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['error_refunded_action'] = '';
         }
 
+        //////
+
         if (isset($this->error['client_company'])) {
             $data['error_client_company'] = $this->error['client_company'];
         } else {
@@ -257,22 +253,22 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['error_client_iban_valid'] = '';
         }
 
-        $data['breadcrumbs'] = [];
+        $data['breadcrumbs'] = array();
 
-        $data['breadcrumbs'][] = [
+        $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_home'),
             'href' => $this->url->link('common/dashboard', 'user_token='.$this->session->data['user_token'], true),
-        ];
+        );
 
-        $data['breadcrumbs'][] = [
+        $data['breadcrumbs'][] = array(
             'text' => $this->language->get('text_extension'),
             'href' => $this->url->link('marketplace/extension', 'user_token='.$this->session->data['user_token'].'&type=payment', true),
-        ];
+        );
 
-        $data['breadcrumbs'][] = [
-            'text' => $this->language->get('heading_title'),
+        $data['breadcrumbs'][] = array(
+            'text' => sprintf($this->language->get('heading_title'), $this->plugin_version),
             'href' => $this->url->link('extension/payment/kevin', 'user_token='.$this->session->data['user_token'], true),
-        ];
+        );
 
         $data['action'] = $this->url->link('extension/payment/kevin', 'user_token='.$this->session->data['user_token'], true);
 
@@ -290,7 +286,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['payment_kevin_client_secret'] = $this->config->get('payment_kevin_client_secret');
         }
 
-        // endpointSecret
+        //endpointSecret
         if (isset($this->request->post['payment_kevin_client_endpointSecret'])) {
             $data['payment_kevin_client_endpointSecret'] = $this->request->post['payment_kevin_client_endpointSecret'];
         } else {
@@ -495,7 +491,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $data['payment_kevin_refunded_action_id'] = $this->config->get('payment_kevin_refunded_action_id');
         }
 
-        // refund log view
+        //refund log view
         $data['download_refund_log'] = $this->url->link('extension/payment/kevin/download_refund_log', 'user_token='.$this->session->data['user_token'], true);
         $data['clear_refund_log'] = $this->url->link('extension/payment/kevin/clear_refund_log', 'user_token='.$this->session->data['user_token'], true);
 
@@ -509,7 +505,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $size = filesize($file);
 
             if ($size >= 5242880) {
-                $suffix = [
+                $suffix = array(
                     'B',
                     'KB',
                     'MB',
@@ -519,7 +515,7 @@ class ControllerExtensionPaymentKevin extends Controller
                     'EB',
                     'ZB',
                     'YB',
-                ];
+                );
 
                 $i = 0;
 
@@ -530,11 +526,11 @@ class ControllerExtensionPaymentKevin extends Controller
 
                 $data['error_refund_log_warning'] = sprintf($this->language->get('error_payment_log_warning'), basename($file), round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i]);
             } else {
-                $data['refund_log'] = file_get_contents($file, \FILE_USE_INCLUDE_PATH, null);
+                $data['refund_log'] = file_get_contents($file, FILE_USE_INCLUDE_PATH, null);
             }
         }
 
-        // payment log view
+        //payment log view
         $data['download_payment_log'] = $this->url->link('extension/payment/kevin/download_payment_log', 'user_token='.$this->session->data['user_token'], true);
         $data['clear_payment_log'] = $this->url->link('extension/payment/kevin/clear_payment_log', 'user_token='.$this->session->data['user_token'], true);
 
@@ -548,7 +544,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $size = filesize($file);
 
             if ($size >= 5242880) {
-                $suffix = [
+                $suffix = array(
                     'B',
                     'KB',
                     'MB',
@@ -558,7 +554,7 @@ class ControllerExtensionPaymentKevin extends Controller
                     'EB',
                     'ZB',
                     'YB',
-                ];
+                );
 
                 $i = 0;
 
@@ -569,7 +565,7 @@ class ControllerExtensionPaymentKevin extends Controller
 
                 $data['error_payment_log_warning'] = sprintf($this->language->get('error_payment_log_warning'), basename($file), round(substr($size, 0, strpos($size, '.') + 4), 2).$suffix[$i]);
             } else {
-                $data['payment_log'] = file_get_contents($file, \FILE_USE_INCLUDE_PATH, null);
+                $data['payment_log'] = file_get_contents($file, FILE_USE_INCLUDE_PATH, null);
             }
         }
 
@@ -594,7 +590,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->response->addheader('Content-Disposition: attachment; filename="'.$this->config->get('config_name').'_'.date('Y-m-d_H-i-s', time()).'_kevin_refund.log"');
             $this->response->addheader('Content-Transfer-Encoding: binary');
 
-            $this->response->setOutput(file_get_contents($file, \FILE_USE_INCLUDE_PATH, null));
+            $this->response->setOutput(file_get_contents($file, FILE_USE_INCLUDE_PATH, null));
         } else {
             $this->session->data['error_log'] = sprintf($this->language->get('error_refund_log_warning'), basename($file), '0B');
 
@@ -635,7 +631,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->response->addheader('Content-Disposition: attachment; filename="'.$this->config->get('config_name').'_'.date('Y-m-d_H-i-s', time()).'_kevin_payment.log"');
             $this->response->addheader('Content-Transfer-Encoding: binary');
 
-            $this->response->setOutput(file_get_contents($file, \FILE_USE_INCLUDE_PATH, null));
+            $this->response->setOutput(file_get_contents($file, FILE_USE_INCLUDE_PATH, null));
         } else {
             $this->session->data['error_log'] = sprintf($this->language->get('kevin_warning'), basename($file), '0B');
 
@@ -675,8 +671,8 @@ class ControllerExtensionPaymentKevin extends Controller
         }
 
         $iban = strtolower(str_replace(' ', '', $iban));
-        $Countries = ['al' => 28, 'ad' => 24, 'at' => 20, 'az' => 28, 'bh' => 22, 'be' => 16, 'ba' => 20, 'br' => 29, 'bg' => 22, 'cr' => 21, 'hr' => 21, 'cy' => 28, 'cz' => 24, 'dk' => 18, 'do' => 28, 'ee' => 20, 'fo' => 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27, 'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' => 31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29, 'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24];
-        $Chars = ['a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' => 18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35];
+        $Countries = array('al' => 28, 'ad' => 24, 'at' => 20, 'az' => 28, 'bh' => 22, 'be' => 16, 'ba' => 20, 'br' => 29, 'bg' => 22, 'cr' => 21, 'hr' => 21, 'cy' => 28, 'cz' => 24, 'dk' => 18, 'do' => 28, 'ee' => 20, 'fo' => 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27, 'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' => 31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29, 'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24);
+        $Chars = array('a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' => 18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35);
 
         if (array_key_exists(substr($iban, 0, 2), $Countries) && strlen($iban) == $Countries[substr($iban, 0, 2)]) {
             $MovedChar = substr($iban, 4).substr($iban, 0, 4);
@@ -729,7 +725,11 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->error['client_company'] = $this->language->get('error_client_company');
         }
 
-        // order statuses
+        if (!empty($this->request->post['payment_kevin_client_company']) && preg_match('/^[\w\s]+$/', $this->request->post['payment_kevin_client_company']) == false) {
+            $this->error['client_company'] = $this->language->get('error_client_c_symbol');
+        }
+
+        //order statuses
         if (empty($this->request->post['payment_kevin_started_status_id'])) {
             $this->error['started_status'] = $this->language->get('error_started_status');
         }
@@ -754,7 +754,7 @@ class ControllerExtensionPaymentKevin extends Controller
             $this->error['partial_status'] = $this->language->get('error_partial_status');
         }
 
-        // refund actions
+        //refund actions
         if (empty($this->request->post['payment_kevin_created_action_id'])) {
             $this->error['created_action'] = $this->language->get('error_created_action');
         }

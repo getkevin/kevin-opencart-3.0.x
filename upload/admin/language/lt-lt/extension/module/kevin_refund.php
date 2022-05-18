@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -61,7 +61,7 @@ $_['text_restock'] = 'Sėkmingai papildytos produktų atsargos!';
 $_['text_upload'] = 'Jūsų failas sėkmingai įkeltas!';
 $_['text_restocked_products'] = 'Į sandėlį grąžintos prekės';
 
-// Button
+//Button
 $_['button_refund'] = 'Sukurti mokėjimo grąžinimą';
 $_['button_edit'] = 'Taisyti';
 $_['button_cancel'] = 'Atšaukti';
@@ -86,9 +86,9 @@ $_['column_model'] = 'Prekės kodas';
 $_['column_quantity'] = 'Kiekis';
 $_['column_restocked_quantity'] = 'Grąžinta į sandėlį';
 $_['column_price'] = 'Vnt. Kaina (Sandėlio)';
-// $_['column_comment']                    = 'Komentaras';
+//$_['column_comment']                    = 'Komentaras';
 $_['column_action'] = 'Veiksmas';
-// $_['column_weight']                     = 'Produkto svoris';
+//$_['column_weight']                     = 'Produkto svoris';
 $_['column_image'] = 'Paveikslėlis';
 $_['column_name'] = 'Prekės pavadinimas';
 

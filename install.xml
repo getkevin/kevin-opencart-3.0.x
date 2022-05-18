@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <modification>
 	<name>Kevin Payment/Refund OC 3.0.x.x</name>
-	<version>1.0.1.4</version>
+	<version>1.0.1.5</version>
 	<code>KevinPayment_Refund</code>
     <author>Kevin.</author>
 	<link><![CDATA[https://getkevin.eu]]></link>

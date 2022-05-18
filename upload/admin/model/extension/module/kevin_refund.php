@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -43,12 +43,12 @@ class ModelExtensionModuleKevinRefund extends Model
         }
     }
 
-    public function getOrders($data = [])
+    public function getOrders($data = array())
     {
         $sql = "SELECT  o.order_id, CONCAT(o.firstname, ' ', o.lastname) AS customer, (SELECT os.name FROM ".DB_PREFIX."order_status os WHERE os.order_status_id = o.order_status_id AND os.language_id = '".(int) $this->config->get('config_language_id')."') AS order_status, o.shipping_code, o.total, ko.currency_code, o.currency_value, o.date_added, o.date_modified, ko.order_id, kr.reason, kr.statusGroup, (SELECT ra.name FROM ".DB_PREFIX."return_action ra WHERE ra.return_action_id = ko.refund_action_id AND ra.language_id = '".(int) $this->config->get('config_language_id')."') AS return_action, sum(kr.amount) total_amount, CASE WHEN sum(kr.amount) IS NULL THEN ko.total ELSE (ko.total - sum(kr.amount)) END AS amount_available, ko.payment_id, ko.total AS kevin_total FROM `".DB_PREFIX.'kevin_order` ko LEFT JOIN `'.DB_PREFIX.'kevin_refund` kr ON (kr.order_id = ko.order_id) LEFT JOIN `'.DB_PREFIX."order` o ON (o.order_id = ko.order_id) AND ko.statusGroup = 'completed' ";
 
         if (isset($data['filter_order_status'])) {
-            $implode = [];
+            $implode = array();
 
             $order_statuses = explode(',', $data['filter_order_status']);
 
@@ -87,7 +87,7 @@ class ModelExtensionModuleKevinRefund extends Model
             $sql .= " AND total_amount = '" . (float)$data['filter_total_amount'] . "'";
         }
 */
-        $sort_data = [
+        $sort_data = array(
             'o.order_id',
             'customer',
             'order_status',
@@ -97,7 +97,8 @@ class ModelExtensionModuleKevinRefund extends Model
             'o.total',
             'total_amount',
             'amount_available',
-        ];
+
+        );
 
         if (isset($data['sort']) && in_array($data['sort'], $sort_data)) {
             $sql .= ' GROUP BY ko.order_id ORDER BY '.$data['sort'];
@@ -105,7 +106,7 @@ class ModelExtensionModuleKevinRefund extends Model
             $sql .= ' GROUP BY ko.order_id ORDER BY o.order_id';
         }
 
-        // $sql .= " GROUP BY ko.order_id ";
+        //$sql .= " GROUP BY ko.order_id ";
 
         if (isset($data['order']) && ($data['order'] == 'DESC')) {
             $sql .= ' DESC';
@@ -176,12 +177,12 @@ class ModelExtensionModuleKevinRefund extends Model
     {
         $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_refund WHERE order_id = '".(int) $order_id."'");
 
-        $restocked = [];
+        $restocked = array();
         foreach ($query->rows as $value) {
             if (!empty($value['restocked_products'])) {
                 $product_id_values = json_decode($value['restocked_products'], true);
-                $keys = [];
-                $values = [];
+                $keys = array();
+                $values = array();
                 foreach ($product_id_values as $key => $value) {
                     $keys[] = $key;
                     $values[] = $value;
@@ -190,22 +191,22 @@ class ModelExtensionModuleKevinRefund extends Model
             }
         }
 
-        $restocked_product_ids = [];
+        $restocked_product_ids = array();
         array_walk_recursive($restocked, function ($item, $key) use (&$restocked_product_ids) {
             $restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ? $item + $restocked_product_ids[$key] : $item;
         });
 
-        $restocked_products = [];
+        $restocked_products = array();
         foreach ($restocked_product_ids as $product_id => $value) {
             if (!empty($value) || $value == 0) {
                 $query_products = $this->db->query('SELECT p.product_id, p.image, pd.name, p.model, p.price, p.quantity, p.status   FROM '.DB_PREFIX.'product p  LEFT JOIN '.DB_PREFIX."product_description pd ON (p.product_id = pd.product_id) WHERE p.product_id = '".(int) $product_id."' AND pd.language_id = '".(int) $this->config->get('config_language_id')."' ");
 
                 $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
 
-                $restocked_quantity = ['restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']];
+                $restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
                 $restocked = array_merge($query_products->row, $restocked_quantity);
-                $keys = [];
-                $values = [];
+                $keys = array();
+                $values = array();
                 foreach ($restocked as $key => $val) {
                     $keys[] = $key;
                     $values[] = $val;
@@ -215,10 +216,10 @@ class ModelExtensionModuleKevinRefund extends Model
             }
         }
 
-        $products = [];
+        $products = array();
         foreach ($restocked_products as $product) {
             if ($product['restocked_quantity'] != 0) {
-                $products[] = [
+                $products[] = array(
                     'product_id' => $product['product_id'],
                     'image' => $product['image'],
                     'name' => $product['name'],
@@ -228,10 +229,11 @@ class ModelExtensionModuleKevinRefund extends Model
                     'restocked_quantity' => $product['restocked_quantity'],
                     'status' => $product['status'],
                     'ordered_quantity' => $product['ordered_quantity'],
-                ];
+
+                );
             }
         }
-        // echo '<pre>fin'; print_r( $products); echo '</pre>';
+//echo '<pre>fin'; print_r( $products); echo '</pre>';
         return $products;
     }
 
@@ -239,11 +241,11 @@ class ModelExtensionModuleKevinRefund extends Model
     {
         $query = $this->db->query('SELECT * FROM '.DB_PREFIX."kevin_refund WHERE order_id = '".(int) $order_id."'");
 
-        $restocked = [];
+        $restocked = array();
 
         foreach ($query->rows as $value) {
-            $keys = [];
-            $values = [];
+            $keys = array();
+            $values = array();
             if (!empty($value['restocked_products'])) {
                 $product_id_values = json_decode($value['restocked_products'], true);
 
@@ -254,12 +256,12 @@ class ModelExtensionModuleKevinRefund extends Model
             }
         }
 
-        $restocked_product_ids = [];
+        $restocked_product_ids = array();
         array_walk_recursive($restocked, function ($item, $key) use (&$restocked_product_ids) {
             $restocked_product_ids[$key] = isset($restocked_product_ids[$key]) ? $item + $restocked_product_ids[$key] : $item;
         });
 
-        $restocked_products = [];
+        $restocked_products = array();
         if (!empty($restocked_product_ids)) {
             foreach ($restocked_product_ids as $product_id => $value) {
                 if (!empty($value) || $value == 0) {
@@ -267,10 +269,10 @@ class ModelExtensionModuleKevinRefund extends Model
 
                     $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $product_id."' AND order_id = '".(int) $order_id."'");
 
-                    $restocked_quantity = ['restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']];
+                    $restocked_quantity = array('restocked_quantity' => $value, 'ordered_quantity' => $ordered_quantity->row['quantity']);
                     $restocked = array_merge($query_products->row, $restocked_quantity);
-                    $keys = [];
-                    $values = [];
+                    $keys = array();
+                    $values = array();
                     foreach ($restocked as $key => $val) {
                         $keys[] = $key;
                         $values[] = $val;
@@ -285,10 +287,10 @@ class ModelExtensionModuleKevinRefund extends Model
 
                 $ordered_quantity = $this->db->query('SELECT quantity FROM `'.DB_PREFIX."order_product`  WHERE product_id = '".(int) $value['product_id']."' AND order_id = '".(int) $order_id."'");
 
-                $restocked_quantity = ['restocked_quantity' => 0, 'ordered_quantity' => $ordered_quantity->row['quantity']];
+                $restocked_quantity = array('restocked_quantity' => 0, 'ordered_quantity' => $ordered_quantity->row['quantity']);
                 $restocked = array_merge($query_products->row, $restocked_quantity);
-                $keys = [];
-                $values = [];
+                $keys = array();
+                $values = array();
                 foreach ($restocked as $key => $val) {
                     $keys[] = $key;
                     $values[] = $val;
@@ -297,9 +299,9 @@ class ModelExtensionModuleKevinRefund extends Model
             }
         }
 
-        $products = [];
+        $products = array();
         foreach ($restocked_products as $product) {
-            $products[] = [
+            $products[] = array(
                 'product_id' => $product['product_id'],
                 'image' => $product['image'],
                 'name' => $product['name'],
@@ -309,7 +311,7 @@ class ModelExtensionModuleKevinRefund extends Model
                 'restocked_quantity' => !empty($product['restocked_quantity']) ? $product['restocked_quantity'] : 0,
                 'status' => $product['status'],
                 'ordered_quantity' => $product['ordered_quantity'],
-            ];
+            );
         }
 
         return $products;
@@ -336,12 +338,12 @@ class ModelExtensionModuleKevinRefund extends Model
         return $query->rows;
     }
 
-    public function getTotalOrders($data = [])
+    public function getTotalOrders($data = array())
     {
         $sql = 'SELECT COUNT(*) AS total FROM `'.DB_PREFIX.'kevin_order` ko LEFT JOIN `'.DB_PREFIX."order` o ON(ko.order_id=o.order_id)  AND ko.statusGroup = 'completed' ";
 
         if (isset($data['filter_order_status'])) {
-            $implode = [];
+            $implode = array();
 
             $order_statuses = explode(',', $data['filter_order_status']);
 

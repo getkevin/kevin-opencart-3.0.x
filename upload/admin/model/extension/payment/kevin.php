@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -18,13 +18,13 @@ class ModelExtensionPaymentKevin extends Model
 {
     public function uninstall()
     {
-        // $this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "kevin_order`;");
+        //$this->db->query("DROP TABLE IF EXISTS `" . DB_PREFIX . "kevin_order`;");
     }
 
     public function install()
     {
         $this->db->query('
-		CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'kevin_order` (
+		CREATE TABLE IF NOT EXISTS `' .DB_PREFIX.'kevin_order` (
 		`kevin_order_id` int(11) NOT NULL AUTO_INCREMENT,
 		`order_id` int(11) NOT NULL,
 		`payment_id` varchar(128) DEFAULT NULL,
@@ -45,7 +45,7 @@ class ModelExtensionPaymentKevin extends Model
 		) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;');
 
         $this->db->query('
-		CREATE TABLE IF NOT EXISTS `'.DB_PREFIX.'kevin_refund` (
+		CREATE TABLE IF NOT EXISTS `' .DB_PREFIX.'kevin_refund` (
 		`refund_id` int(11) NOT NULL AUTO_INCREMENT,
 		`kevin_refund_id` int(11) NOT NULL,
 		`order_id` int(11) NOT NULL,
@@ -71,7 +71,7 @@ class ModelExtensionPaymentKevin extends Model
             $this->db->query('ALTER TABLE `'.DB_PREFIX.'kevin_order` MODIFY COLUMN `payment_id`	varchar(128) DEFAULT NULL');
         }
 
-        // modify the length of the data type in the table column to display the payment method logo
+        //modify the length of the data type in the table column to display the payment method logo
         $this->db->query('ALTER TABLE `'.DB_PREFIX.'order` MODIFY COLUMN `payment_method`	varchar(256) NOT NULL');
 
         $query_status = $this->db->query('DESC `'.DB_PREFIX.'kevin_order` order_status_id');
@@ -93,7 +93,7 @@ class ModelExtensionPaymentKevin extends Model
             $this->db->query('ALTER TABLE `'.DB_PREFIX.'kevin_order` ADD `refund_action_id` int(11) NOT NULL AFTER order_status_id ');
         }
 
-        // $query_refund_table = $this->db->query("DESCRIBE `" . DB_PREFIX . "kevin_refund` ");
+        //$query_refund_table = $this->db->query("DESCRIBE `" . DB_PREFIX . "kevin_refund` ");
     }
 
     public function checkKevinDB()

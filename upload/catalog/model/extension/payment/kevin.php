@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@ use Kevin\Client;
 class ModelExtensionPaymentKevin extends Model
 {
     private $lib_version = '0.3';
-    private $plugin_version = '1.0.1.4';
+    private $plugin_version = '1.0.1.5';
 
     public function getMethod($address, $total)
     {
@@ -33,7 +33,7 @@ class ModelExtensionPaymentKevin extends Model
             'version' => $this->lib_version,
             'pluginVersion' => $this->plugin_version,
             'pluginPlatform' => 'OpenCart',
-            'pluginPlatformVersion' => (string) VERSION,
+            'pluginPlatformVersion' => strval(VERSION),
         ];
 
         $kevinClient = new Client($clientId, $clientSecret, $options);
@@ -64,7 +64,7 @@ class ModelExtensionPaymentKevin extends Model
         $payment_methods = $project_settings['paymentMethods'];
 
         $contries = $kevinClient->auth()->getCountries();
-        // $countryCodes = array("LT", "LV", "EE");
+        //$countryCodes = array("LT", "LV", "EE");
         $countryCodes = $contries['data'];
         if (in_array($current_country_code, $countryCodes) || in_array('card', $payment_methods) && $status) {
             $status = true;
@@ -72,7 +72,7 @@ class ModelExtensionPaymentKevin extends Model
             $status = false;
         }
 
-        $method_data = [];
+        $method_data = array();
         $this->load->model('localisation/language');
         $current_language = $this->config->get('config_language_id');
         if (!empty($this->config->get('payment_kevin_image_width'))) {
@@ -99,12 +99,12 @@ class ModelExtensionPaymentKevin extends Model
         }
 
         if ($status) {
-            $method_data = [
+            $method_data = array(
                 'code' => 'kevin',
                 'title' => $title,
                 'terms' => '',
                 'sort_order' => $this->config->get('payment_kevin_sort_order'),
-            ];
+            );
         }
 
         return $method_data;
@@ -112,37 +112,37 @@ class ModelExtensionPaymentKevin extends Model
 
     public function addKevinOrder($data)
     {
-        $this->db->query('INSERT INTO `'.DB_PREFIX."kevin_order` SET
-		`order_id` = '".(int) $data['order_id']."',
-		`payment_id` = '".$this->db->escape($data['payment_id'])."',
-		`bank_id` = '".$this->db->escape($data['bank_id'])."',
-		`status` = '".$this->db->escape($data['status'])."',
-		`payment_method` = '".$this->db->escape($data['payment_method'])."',
-		`statusGroup` = '".$this->db->escape($data['statusGroup'])."',
-		`order_status_id` = '".(int) $data['order_status_id']."',
-		`ip_address` = '".$this->db->escape($data['ip_address'])."',
+        $this->db->query('INSERT INTO `'.DB_PREFIX."kevin_order` SET 
+		`order_id` = '" .(int) $data['order_id']."',
+		`payment_id` = '" .$this->db->escape($data['payment_id'])."',
+		`bank_id` = '" .$this->db->escape($data['bank_id'])."',
+		`status` = '" .$this->db->escape($data['status'])."',
+		`payment_method` = '" .$this->db->escape($data['payment_method'])."',
+		`statusGroup` = '" .$this->db->escape($data['statusGroup'])."',
+		`order_status_id` = '" .(int) $data['order_status_id']."',
+		`ip_address` = '" .$this->db->escape($data['ip_address'])."',
 		`date_added` = now(),
-		`date_modified` = now(),
-		`currency_code` = '".$this->db->escape($data['currency_code'])."',
-		`total` = '".(float) $data['total']."'");
+		`date_modified` = now(), 
+		`currency_code` = '" .$this->db->escape($data['currency_code'])."', 
+		`total` = '" .(float) $data['total']."'");
     }
 
     public function updateWebhookKevinOrder($data)
     {
-        $this->db->query('UPDATE `'.DB_PREFIX."kevin_order` SET
-		`status` = '".$this->db->escape($data['status'])."',
-		`statusGroup` = '".$this->db->escape($data['statusGroup'])."',
-		`order_status_id` = '".(int) $data['order_status_id']."',
-		`date_modified` = NOW()
-         WHERE `payment_id` = '".$this->db->escape($data['payment_id'])."'");
+        $this->db->query('UPDATE `'.DB_PREFIX."kevin_order` SET 
+		`status` = '" .$this->db->escape($data['status'])."',
+		`statusGroup` = '" .$this->db->escape($data['statusGroup'])."',
+		`order_status_id` = '" .(int) $data['order_status_id']."',
+		`date_modified` = NOW() 
+         WHERE `payment_id` = '" .$this->db->escape($data['payment_id'])."'");
     }
 
     public function updateSignatureKevinOrder($data)
     {
-        $this->db->query('UPDATE `'.DB_PREFIX."kevin_order` SET
-		`order_status_id` = '".(int) $data['order_status_id']."',
-		`date_modified` = NOW()
-         WHERE `payment_id` = '".$this->db->escape($data['payment_id'])."'");
+        $this->db->query('UPDATE `'.DB_PREFIX."kevin_order` SET 
+		`order_status_id` = '" .(int) $data['order_status_id']."',
+		`date_modified` = NOW() 
+         WHERE `payment_id` = '" .$this->db->escape($data['payment_id'])."'");
     }
 
     public function getKevinOrders($payment_id)
@@ -183,11 +183,11 @@ class ModelExtensionPaymentKevin extends Model
             $order_status = $this->config->get('payment_kevin_partial_refund_status_id');
         }
 
-        $this->db->query('UPDATE `'.DB_PREFIX."kevin_refund` SET
-		`statusGroup` = '".$this->db->escape($data['statusGroup'])."',
+        $this->db->query('UPDATE `'.DB_PREFIX."kevin_refund` SET 
+		`statusGroup` = '" .$this->db->escape($data['statusGroup'])."',
 		`date_modified` = NOW()
-         WHERE `kevin_refund_id` = '".(int) $data['kevin_refund_id']."'
-		 AND `payment_id` = '".$this->db->escape($data['payment_id'])."'");
+         WHERE `kevin_refund_id` = '" .(int) $data['kevin_refund_id']."'
+		 AND `payment_id` = '" .$this->db->escape($data['payment_id'])."'");
 
         return $order_status;
     }
