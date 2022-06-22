@@ -39,4 +39,15 @@
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "kevin_refund` WHERE order_id = '" . (int)$order_id . "'");]]></add>
 		</operation>	
 	</file>
+	
+	<file path="admin/controller/startup/startup.php">
+		<operation error="skip">
+			<search>
+			<![CDATA[<?php]]>
+			</search>
+			<add position="after">
+			<![CDATA[// kevin. version
+define('KEVIN_VERSION', '1.0.1.5');]]></add>
+		</operation>	
+	</file>
 </modification>
