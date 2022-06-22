@@ -68,7 +68,7 @@ class ControllerExtensionPaymentKevin extends Controller {
 			$this->response->redirect($this->url->link('extension/payment/kevin', 'user_token=' . $this->session->data['user_token'] . '&type=payment', true));
 		}
 
-		$project = 	$this->getProjectSettings()	;
+		$project = $this->getProjectSettings();
 
 		$data['error_client'] = '';
 
