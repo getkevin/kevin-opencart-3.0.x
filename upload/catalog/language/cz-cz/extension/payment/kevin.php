@@ -15,35 +15,35 @@
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
 // Text
-$_['text_amount_received']      = 'Vrácená částka: %s';
-$_['text_card_name']            = 'Kreditní / Debetní Karta';
-$_['text_countries']            = 'Zemi';
+$_['text_amount_received'] = 'Vrácená částka: %s';
+$_['text_card_name'] = 'Kreditní / Debetní Karta';
+$_['text_countries'] = 'Zemi';
 $_['text_kevin_payment_method'] = 'Způsob platby: %s';
-$_['text_loading']              = 'Načítání';
-$_['text_order_info']           = 'ID objednávky %s';
-$_['text_payment_id']           = 'ID platby: %s';
-$_['text_reason']               = 'Refundováno: %s';
-$_['text_refund_status']        = 'Stav refundace: %s';
-$_['text_select_country']       = '-- Vyberte Zemi--';
-$_['text_status']               = 'Stav objednávky: %s';
-$_['text_status_group']         = 'Skupina stavu objednávky: %s';
-$_['text_subject']              = '%s vrátila vaše peníze. ID objednávky: %s';
-$_['text_thank_you']            = 'Děkujeme za nákup <br /> <strong> %s </strong>';
-$_['text_title']                = 'kevin.';
-$_['text_sandbox_alert']        = 'Tato platební metoda je nakonfigurována v režimu Sandbox. Pouze pro testovací platby. Skutečné platby nejsou k dispozici!';
+$_['text_loading'] = 'Načítání';
+$_['text_order_info'] = 'ID objednávky %s';
+$_['text_payment_id'] = 'ID platby: %s';
+$_['text_reason'] = 'Refundováno: %s';
+$_['text_refund_status'] = 'Stav refundace: %s';
+$_['text_select_country'] = '-- Vyberte Zemi--';
+$_['text_status'] = 'Stav objednávky: %s';
+$_['text_status_group'] = 'Skupina stavu objednávky: %s';
+$_['text_subject'] = '%s vrátila vaše peníze. ID objednávky: %s';
+$_['text_thank_you'] = 'Děkujeme za nákup <br /> <strong> %s </strong>';
+$_['text_title'] = 'kevin.';
+$_['text_sandbox_alert'] = 'Tato platební metoda je nakonfigurována v režimu Sandbox. Pouze pro testovací platby. Skutečné platby nejsou k dispozici!';
 
 // Button
-$_['button_confirm']            = 'Potvrďte Objednávku';
-$_['button_search']             = 'Automatické Dokončování Vyhledávání';
+$_['button_confirm'] = 'Potvrďte Objednávku';
+$_['button_search'] = 'Automatické Dokončování Vyhledávání';
 
 // Help
-$_['help_serch_bank']           = 'Hledat Banku';
+$_['help_serch_bank'] = 'Hledat Banku';
 
 // Error
-$_['error_missing_data']        = 'Žádné platební údaje! Zkuste to znovu nebo zvolte jiný způsob platby.';
-$_['error_order_session']       = 'Došlo k chybě. Relace dokončena! Zkus to znovu.';
-$_['error_payment_option']      = 'Platba touto platební metodou není k dispozici.';
-$_['error_bank']                = 'Banka není vybrána! Vyberte si banku.';
-$_['error_currency']            = 'Pouze &euro; měna jsou povoleny pro tento způsob platby. Vyberte měnu <strong> & euro;</strong>.';
-$_['error_kevin_payment']       = 'Došlo k chybě. Pro více informací kontaktujte obchodníka nebo zkuste jiný způsob platby.';
-$_['error_kevin_payment_id']    = 'Došlo k chybě. Platební ID nebylo vráceno z platebního systému. Pro více informací kontaktujte obchodníka.';
+$_['error_missing_data'] = 'Žádné platební údaje! Zkuste to znovu nebo zvolte jiný způsob platby.';
+$_['error_order_session'] = 'Došlo k chybě. Relace dokončena! Zkus to znovu.';
+$_['error_payment_option'] = 'Platba touto platební metodou není k dispozici.';
+$_['error_bank'] = 'Banka není vybrána! Vyberte si banku.';
+$_['error_currency'] = 'Pouze &euro; měna jsou povoleny pro tento způsob platby. Vyberte měnu <strong> & euro;</strong>.';
+$_['error_kevin_payment'] = 'Došlo k chybě. Pro více informací kontaktujte obchodníka nebo zkuste jiný způsob platby.';
+$_['error_kevin_payment_id'] = 'Došlo k chybě. Platební ID nebylo vráceno z platebního systému. Pro více informací kontaktujte obchodníka.';
