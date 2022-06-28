@@ -82,7 +82,11 @@ class ModelExtensionModuleKevinRefund extends Model
         if (!empty($data['filter_total'])) {
             $sql .= " AND o.total = '".(float) $data['filter_total']."'";
         }
-
+        /*
+        if (!empty($data['filter_total'])) {
+            $sql .= " AND total_amount = '" . (float)$data['filter_total_amount'] . "'";
+        }
+*/
         $sort_data = [
             'o.order_id',
             'customer',
@@ -100,6 +104,8 @@ class ModelExtensionModuleKevinRefund extends Model
         } else {
             $sql .= ' GROUP BY ko.order_id ORDER BY o.order_id';
         }
+
+        //$sql .= " GROUP BY ko.order_id ";
 
         if (isset($data['order']) && ($data['order'] == 'DESC')) {
             $sql .= ' DESC';
@@ -225,7 +231,7 @@ class ModelExtensionModuleKevinRefund extends Model
                 ];
             }
         }
-
+        //echo '<pre>fin'; print_r( $products); echo '</pre>';
         return $products;
     }
 
@@ -369,7 +375,11 @@ class ModelExtensionModuleKevinRefund extends Model
         if (!empty($data['filter_total'])) {
             $sql .= " AND o.total = '".(float) $data['filter_total']."'";
         }
-
+        /*
+        if (!empty($data['filter_total_amount'])) {
+            $sql .= " AND ko.amount = '" . (float)$data['filter_total_amount'] . "'";
+        }
+*/
         $query = $this->db->query($sql);
 
         return $query->row['total'];

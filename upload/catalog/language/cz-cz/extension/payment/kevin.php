@@ -32,13 +32,6 @@ $_['text_thank_you'] = 'Děkujeme za nákup <br /> <strong> %s </strong>';
 $_['text_title'] = 'kevin.';
 $_['text_sandbox_alert'] = 'Tato platební metoda je nakonfigurována v režimu Sandbox. Pouze pro testovací platby. Skutečné platby nejsou k dispozici!';
 
-// Button
-$_['button_confirm'] = 'Potvrďte Objednávku';
-$_['button_search'] = 'Automatické Dokončování Vyhledávání';
-
-// Help
-$_['help_serch_bank'] = 'Hledat Banku';
-
 // Error
 $_['error_missing_data'] = 'Žádné platební údaje! Zkuste to znovu nebo zvolte jiný způsob platby.';
 $_['error_order_session'] = 'Došlo k chybě. Relace dokončena! Zkus to znovu.';
@@ -47,3 +40,11 @@ $_['error_bank'] = 'Banka není vybrána! Vyberte si banku.';
 $_['error_currency'] = 'Pouze &euro; měna jsou povoleny pro tento způsob platby. Vyberte měnu <strong> & euro;</strong>.';
 $_['error_kevin_payment'] = 'Došlo k chybě. Pro více informací kontaktujte obchodníka nebo zkuste jiný způsob platby.';
 $_['error_kevin_payment_id'] = 'Došlo k chybě. Platební ID nebylo vráceno z platebního systému. Pro více informací kontaktujte obchodníka.';
+$_['error_response'] = 'Došlo k chybě! Popis: Chyba serveru. Zkus to znovu.';
+
+// Button
+$_['button_confirm'] = 'Potvrďte Objednávku';
+$_['button_search'] = 'Automatické Dokončování Vyhledávání';
+
+// Help
+$_['help_serch_bank'] = 'Hledat Banku';

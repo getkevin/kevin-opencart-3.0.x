@@ -30,6 +30,10 @@ $_['text_right'] = 'A destra';
 $_['text_select_action'] = '- Selezionare Azione-';
 $_['text_select_status'] = '-Selezionare lo stato-';
 $_['text_success'] = 'Successo: Hai modificato i dettagli del modulo kevin.';
+$_['text_refund'] = 'Sono ammessi rimborsi.';
+$_['text_payment_bank'] = 'È consentito il metodo di pagamento bancario.';
+$_['text_payment_card'] = 'È consentito il metodo di pagamento con carta.';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> pagamenti sono impostati sulla modalità Sandbox. Solo per pagamenti di prova. I pagamenti reali non sono disponibili!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Nome della banca';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Attenzione: Il tuo file di registro del rimbor
 $_['error_started_status'] = 'Stato dell\'ordine richiesto!';
 $_['error_title'] = 'Titolo di pagamento, o logo di pagamento richiesto!';
 $_['error_warning'] = 'Controllate attentamente le impostazioni per eventuali errori!';
+$_['error_client'] = 'Impossibile connettersi con <span style="font-weight: 600; color:red;">kevin. </span> a causa di un errore del server.';
 
 // Help
 $_['help_bank_name_enbl'] = 'Abilita il nome della banca nella pagina di checkout.';

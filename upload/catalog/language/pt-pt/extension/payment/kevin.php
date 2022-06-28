@@ -40,6 +40,7 @@ $_['error_bank'] = 'Banco não selecionado! Escolha o seu banco.';
 $_['error_currency'] = 'Selecione < strong > & euro; < /strong > como a moeda de pagamento.';
 $_['error_kevin_payment'] = 'Erro. Entre em contato com o vendedor para obter mais informações ou tente usar outro método de pagamento.';
 $_['error_kevin_payment_id'] = 'Erro. ID de pagamento não devolvido pelo sistema de pagamento. Entre em contato com o vendedor para obter mais informações.';
+$_['error_response'] = 'Havia um erro! Descrição: Erro do servidor. Por favor, tente novamente.';
 
 // Button
 $_['button_confirm'] = 'Confirmar a ordem';

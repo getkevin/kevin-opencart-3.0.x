@@ -25,11 +25,15 @@ $_['text_kevin'] = '<a href="https://www.kevin.eu/" target="_blank"><img src="vi
 $_['text_left'] = 'Izquierda';
 $_['text_payment'] = 'Pago';
 $_['text_payment_log'] = 'Registro de pagos';
-$_['text_refund_log'] = 'Registro de devoluciones';
+$_['text_refund_log'] = 'Registro de reembolso';
 $_['text_right'] = 'A la derecha';
 $_['text_select_action'] = '- Seleccionar Acción-';
 $_['text_select_status'] = '-Seleccionar estado-';
 $_['text_success'] = 'Éxito: Has modificado los detalles del módulo de kevin.';
+$_['text_refund'] = 'Se permite reembolsos.';
+$_['text_payment_bank'] = 'Se permite el método de pago bancario.';
+$_['text_payment_card'] = 'Se permite el método de pago con tarjeta.';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Los pagos se configuran en modo Sandbox. Solo para pagos de prueba. ¡Los pagos reales no están disponibles!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Nombre del banco';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Advertencia: ¡Su archivo de registro de reemb
 $_['error_started_status'] = 'Se requiere el estado del pedido.';
 $_['error_title'] = '¡Título de pago, o logo de pago requerido!';
 $_['error_warning'] = 'Comprueba que no haya errores en los ajustes.';
+$_['error_client'] = 'No se puede conectar con <span style="font-weight: 600; color:red;">kevin. </span> debido a un error del servidor.';
 
 // Help
 $_['help_bank_name_enbl'] = 'Habilitar el nombre del banco en la página de pago.';

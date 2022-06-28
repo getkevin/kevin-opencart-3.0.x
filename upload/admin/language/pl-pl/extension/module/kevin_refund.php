@@ -60,6 +60,9 @@ $_['text_success'] = 'Sukces: Udało Ci się zmodyfikować <span style="font-wei
 $_['text_telephone'] = 'Telefon';
 $_['text_upc'] = 'UPC:';
 $_['text_upload'] = 'Twój plik został pomyślnie przesłany!';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Płatności są konfigurowane  w trybie Sandbox. Tylko dla płatności testowych. Brak dostępnych rzeczywistych płatności!';
+$_['text_refund_warning'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Zwroty pieniędzy nie są dozwolone! Skontaktuj się z <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_blank"> kevin. </a>';
+$_['text_refund_prepare'] = 'Kwota przygotowana do zwrotu: %1$s. Stan zwrotu: "%2$s". Nr zamówienia %3$s.';
 
 // Button
 $_['button_cancel'] = 'Anuluj';
@@ -110,3 +113,6 @@ $_['error_action'] = 'Ostrzeżenie: Nie można ukończyć tej akcji!';
 $_['error_filetype'] = 'Nieprawidłowy typ pliku!';
 $_['error_permission'] = 'Ostrzeżenie: Nie masz uprawnień do modyfikowania zwrotów pieniędzy kevin.';
 $_['error_warning'] = 'Ostrzeżenie: Prosimy o dokładne sprawdzenie formularza pod kątem błędów!';
+$_['error_auth_refund'] = 'Wystąpił błąd! Bez zwrotów. Skontaktuj się z <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_blank"> kevin. </a>';
+$_['error_amount_refund'] = 'Wystąpił błąd! Nie wprowadzono kwoty zwrotu. Spróbuj ponownie, wprowadzając kwotę zwrotu.';
+$_['error_field_refund'] = 'Wystąpił błąd! Sprawdź formularz, wypełnij wszystkie wymagane pola i spróbuj ponownie.';

@@ -30,6 +30,10 @@ $_['text_right'] = 'Vpravo';
 $_['text_select_action'] = '-Vybrat Akce-';
 $_['text_select_status'] = '-Vybrat stav-';
 $_['text_success'] = 'Úspěch: Změnili jste podrobnosti kevin.module!';
+$_['text_refund'] = 'Refundace peněz je povoleno. ';
+$_['text_payment_bank'] = 'Způsob platby bankou je povolen.';
+$_['text_payment_card'] = 'Způsob platby kartou je povolen.';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span>Platby se konfigurují v režimu Sandbox. Pouze pro testovací platby. Skutečné platby nejsou k dispozici!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Název banky';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Varování: Soubor protokolu refundace %s je %
 $_['error_started_status'] = 'Vyžaduje se stav objednávky!';
 $_['error_title'] = 'Vyžaduje se název platby nebo logo platby!';
 $_['error_warning'] = 'Pečlivě zkontrolujte, zda v nastavení nejsou chyby!';
+$_['error_client'] = 'Nelze se připojit k <span style = "font-weight: 600; color: red;"> kevin. </span> kvůli chybě serveru!';
 
 // Help
 $_['help_bank_name_enbl'] = 'Povolit název banky na stránce pokladny.';

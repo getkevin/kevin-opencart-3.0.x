@@ -30,6 +30,10 @@ $_['text_right'] = 'Prawo';
 $_['text_select_action'] = '-Wybierz Działanie-';
 $_['text_select_status'] = '-Wybierz status-';
 $_['text_success'] = 'Sukces: Udało Ci się zmodyfikować szczegóły modułu kevin.!';
+$_['text_refund'] = 'Zwroty są dozwolone.';
+$_['text_payment_bank'] = 'Metoda płatności bankowej jest dozwolona.';
+$_['text_payment_card'] = 'Płatność kartą jest dozwolona.';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Płatności są konfigurowane  w trybie Sandbox. Tylko dla płatności testowych. Brak dostępnych rzeczywistych płatności!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Nazwa banku';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Ostrzeżenie: Plik dziennika zwrotu pieniędzy
 $_['error_started_status'] = 'Wymagany status zamówienia!';
 $_['error_title'] = 'Wymagany tytuł płatności lub logo płatności!';
 $_['error_warning'] = 'Sprawdź dokładnie ustawienia pod kątem błędów!';
+$_['error_client'] = 'Nie można połączyć się z <span style="font-weight: 600; color:red;">kevin. </span> z powodu błędu serwera!';
 
 // Help
 $_['help_bank_name_enbl'] = 'Włącz nazwę banku na stronie realizacji transakcji.';
