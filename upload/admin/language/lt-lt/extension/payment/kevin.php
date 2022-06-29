@@ -30,6 +30,10 @@ $_['text_right'] = 'Dešinėje';
 $_['text_select_action'] = '-Pasirinkite veiksmą-';
 $_['text_select_status'] = '-Pasirinkite būseną-';
 $_['text_success'] = 'Sėkmė: Jūs modifikavote kevin. modulį!';
+$_['text_refund'] = ' Grąžinti pinigus leidžiama. ';
+$_['text_payment_bank'] = ' Leidžiamas banko mokėjimo būdas. ';
+$_['text_payment_card'] = ' Leidžiamas mokėjimo kortele būdas. ';
+$_['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">kevin.</span> mokėjimai nustatyti į "sandbox" režimą. Tik bandomiesiems mokėjimams. Tiesioginiai mokėjimai neprieinami!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Banko pavadinimas';
@@ -73,7 +77,7 @@ $_['entry_total'] = 'Viso:';
 $_['error_bcmod'] = 'Neįmanoma patvirtinti sąskaitos Nr., kadangi PHP Modulis "bcmath" nėra įdiegtas Jūsų serveryje! Idiekite "bcmath" modulį, arba paprašykite tai padaryti serverio administratoriaus.';
 $_['error_client_company'] = 'Kliento įmonės pavadinimas privalomas!';
 $_['error_client_c_symbol'] = 'Specialūs simboliai kliento pavadinime nepriimtini!';
-$_['error_client_endpointSecret'] = 'Kliento slaptas parašas privalomas!';
+$_['error_client_endpointSecret'] = 'Kliento EndpointSecret privalomas!';
 $_['error_client_iban_empty'] = 'Kliento sąskaitos Nr. privalomas!';
 $_['error_client_iban_valid'] = 'Kliento sąskaitos Nr. Negalioja!';
 $_['error_client_id'] = 'Kliento Id privalomas!';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Įspėjimas: Grąžinimo veiksmų žurnalo byl
 $_['error_started_status'] = 'Užsakymo būsena privaloma!';
 $_['error_title'] = 'Mokėjimo būdo pavadinimas, arba banko logotipas privalomas!';
 $_['error_warning'] = 'Atidžiai patikrinkite nustatymus, ar nėra klaidų!';
+$_['error_client'] = 'Dėl serverio klaidos nepavyksta prisijungti prie <span style="font-weight: 600; color:red;">kevin. </span> !';
 
 // Help
 $_['help_bank_name_enbl'] = 'Rodyti galimų bankų pavadinimus atsiskaitymo puslapyje.';

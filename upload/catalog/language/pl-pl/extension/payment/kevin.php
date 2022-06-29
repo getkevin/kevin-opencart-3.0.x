@@ -40,10 +40,11 @@ $_['error_bank'] = 'Bank nie został wybrany! Wybierz swój bank.';
 $_['error_currency'] = 'Tylko waluta & euro; jest dozwolona dla tej metody płatności. Wybierz walutę <strong> & euro;</strong>.';
 $_['error_kevin_payment'] = 'Wystąpił błąd. Skontaktuj się ze sprzedawcą, aby uzyskać więcej informacji lub wypróbuj inną metodę płatności.';
 $_['error_kevin_payment_id'] = 'Wystąpił błąd. Identyfikator płatności nie został zwrócony z systemu płatności. Aby uzyskać więcej informacji, skontaktuj się ze sprzedawcą.';
+$_['error_response'] = 'Wystąpił błąd! Opis: błąd serwera. Spróbuj ponownie.';
 
 // Button
 $_['button_confirm'] = 'Potwierdź Zamówienie';
 $_['button_search'] = 'Autouzupełnianie Wyszukiwania';
 
-// help
+// Help
 $_['help_serch_bank'] = 'Szukaj Bank';

@@ -16,7 +16,7 @@
 */
 // Text
 $_['text_amount_received'] = 'Grąžinta suma: %s';
-$_['text_card_name'] = 'Keredito/Debeto kortelė';
+$_['text_card_name'] = 'Kredito/Debeto kortelė';
 $_['text_countries'] = 'Šalys';
 $_['text_kevin_payment_method'] = 'Mokėjimo būdas: %s';
 $_['text_loading'] = 'Kraunasi';
@@ -40,6 +40,7 @@ $_['error_bank'] = 'Bankas nepasirinktas! Pasirinkite savo banką.';
 $_['error_currency'] = 'Jei norite atsiskaityti šiuo mokėjimo būdu, pasirinkite valiutą <strong>&euro;</strong>.';
 $_['error_kevin_payment'] = 'Įvyko klaida. Norėdami gauti daugiau informacijos, susisiekite su pardavėju arba bandykite atsiskaityti naudodami kitą mokėjimo metodą.';
 $_['error_kevin_payment_id'] = 'Įvyko klaida. Iš mokėjimo sistemos negrąžintas mokėjimo ID. Norėdami gauti daugiau informacijos, susisiekite su pardavėju.';
+$_['error_response'] = 'Įvyko klaida! Aprašymas: Serverio klaida. Pabandykite dar kartą.';
 
 // Button
 $_['button_confirm'] = 'Patvirtinti užsakymą';

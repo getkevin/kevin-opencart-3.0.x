@@ -30,6 +30,10 @@ $_['text_right'] = 'Certo';
 $_['text_select_action'] = '- Selecione Ação-';
 $_['text_select_status'] = '-Seleccionar Estado...-';
 $_['text_success'] = 'O sucesso: Modificou os detalhes do módulo kevin.';
+$_['text_refund'] = 'Os reembolsos são permitidos.';
+$_['text_payment_bank'] = 'O método de pagamento bancário é permitido.';
+$_['text_payment_card'] = 'O método de pagamento com cartão é permitido.';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Os pagamentos são definidos para o modo Sandbox. Apenas para pagamentos de teste. Pagamentos reais não estão disponíveis!';
 
 // Entry
 $_['entry_bank_name_enabled'] = 'Nome do Banco';
@@ -92,6 +96,7 @@ $_['error_refund_log_warning'] = 'Advertência: O seu ficheiro de registo de Ree
 $_['error_started_status'] = 'Estado do pedido exigido!';
 $_['error_title'] = 'Título de pagamento, ou Logotipo de pagamento Necessário!';
 $_['error_warning'] = 'Verifique cuidadosamente as definições para detectar erros!';
+$_['error_client'] = 'Não é possível conectar com <span style="font-weight: 600; color:red;">kevin. </span> devido a um erro do servidor.';
 
 // Help
 $_['help_bank_name_enbl'] = 'Habilitar o nome do banco na página de checkout.';

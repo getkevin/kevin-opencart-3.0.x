@@ -60,6 +60,9 @@ $_['text_success'] = 'Úspěch: Změnili jste <span style="font-weight: 700; col
 $_['text_telephone'] = 'Telefon';
 $_['text_upc'] = 'UPC:';
 $_['text_upload'] = 'Soubor byl úspěšně nahrán!';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span>Platby se konfigurují v režimu Sandbox. Pouze pro testovací platby. Skutečné platby nejsou k dispozici!';
+$_['text_refund_warning'] = '<span style = "font-weight: 600; color: red;"> kevin. </span>Vrácení peněz není povoleno! Kontakt <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_blank"> kevin. </a>';
+$_['text_refund_prepare'] = 'Částka připravená k vrácení: %1$s. Stav vrácení peněz: "%2$s". Číslo objednávky %3$s.';
 
 // Button
 $_['button_cancel'] = 'Zrušit';
@@ -106,6 +109,9 @@ $_['entry_store'] = 'Obchod';
 $_['entry_total'] = 'Celkem';
 
 // Error
+$_['error_auth_refund'] = 'Došlo k chybě! Žádné refundace. Kontakt <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_blank"> kevin. </a>';
+$_['error_amount_refund'] = 'Došlo k chybě! Částka vrácení nebyla zadána. Zkuste to znovu zadáním částky pro vrácení peněz.';
+$_['error_field_refund'] = 'Došlo k chybě! Zkontrolujte formulář, vyplňte všechna povinná pole a zkuste to znovu.';
 $_['error_action'] = 'Varování: Tuto akci se nepodařilo dokončit!';
 $_['error_filetype'] = 'Neplatný typ souboru';
 $_['error_permission'] = 'Varování: K úpravě platby kevin.Refunds nemáte oprávnění!';

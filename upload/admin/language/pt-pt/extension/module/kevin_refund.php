@@ -60,6 +60,9 @@ $_['text_success'] = 'O sucesso: O senhor modificou o <span style="font-weight: 
 $_['text_telephone'] = 'Telefone';
 $_['text_upc'] = 'UPC:';
 $_['text_upload'] = 'O seu ficheiro foi carregado com sucesso!';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Os pagamentos são definidos para o modo Sandbox. Apenas para pagamentos de teste. Pagamentos reais não estão disponíveis!';
+$_['text_refund_warning'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Não são permitidos reembolsos! Contato <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_ blank"> kevin. </a>';
+$_['text_refund_prepare'] = 'Valor preparado para reembolso: %1$s. Status do reembolso: "%2$s". Nº do pedido %3$s.';
 
 // Button
 $_['button_cancel'] = 'Cancelar';
@@ -110,3 +113,6 @@ $_['error_action'] = 'Advertência: Não foi possível completar esta acção!';
 $_['error_filetype'] = 'Tipo de ficheiro inválido!';
 $_['error_permission'] = 'Advertência: Não tem permissão para modificar o kevin. Reembolsos';
 $_['error_warning'] = 'Advertência: Por favor, verifique o formulário cuidadosamente para detectar erros!';
+$_['error_auth_refund'] = 'Havia um erro! Você não pode fazer reembolsos. Contato <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_ blank"> kevin. </a>';
+$_['error_amount_refund'] = 'Havia um erro! O valor do reembolso não foi inserido. Tente novamente inserindo o valor do reembolso.';
+$_['error_field_refund'] = 'Havia um erro! Verifique o formulário, preencha todos os campos obrigatórios e tente novamente.';

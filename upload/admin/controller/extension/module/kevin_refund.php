@@ -21,7 +21,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
     private $error = [];
 
     private $lib_version = '0.3';
-    private $plugin_version = '1.0.1.5';
+    private $plugin_version = KEVIN_VERSION;
 
     public function install()
     {
@@ -114,7 +114,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 usort($refunds, 'cmp');
             }
             if (!empty($project['isSandbox']) && $project['isSandbox']) {
-                $data['text_sandbox_alert'] = '<span style="font-weight: 600; color:red;">kevin.</span> Refunds is set to Sandbox mode. Only for test Refunds. Real Refunds is not available!';
+                $data['text_sandbox_alert'] = $this->language->get('text_sandbox_alert');
             }
             $project_settings = $project;
         }
@@ -237,8 +237,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
             'href' => $this->url->link('extension/module/kevin_refund', 'user_token='.$this->session->data['user_token'].$url, true),
         ];
 
-        //	$data['invoice'] = $this->url->link('extension/module/kevin_refund/invoice', 'user_token=' . $this->session->data['user_token'], true);
-
         $data['orders'] = [];
 
         $filter_data = [
@@ -258,7 +256,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
 
         if (empty($refunds)) {
             $results = [];
-            $data['refund_warning'] = '<span style="font-weight: 600; color:red;">kevin.</span> refunds is not allowed! Please contact <a style="font-weight: 800; color:red;" href="https://kevin.eu" target="_blank">kevin.</a>';
+            $data['refund_warning'] = $this->language->get('text_refund_warning');
         } else {
             $data['refund_warning'] = '';
             $results = $this->model_extension_module_kevin_refund->getOrders($filter_data);
@@ -274,8 +272,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 for ($i = 0; $i <= $product['quantity']; ++$i) {
                     $quantity_array[$i] = $i;
                 }
-
-                //	$price_tax = $this->tax->calculate($this->currency->convert($product['price'], $this->config->get('config_currency'), $result['currency_code']), $this->config->get('tax_class_id'), $this->config->get('config_tax'));
 
                 $price = $this->currency->convert((float) ($product['price'] + $product['tax']), $this->config->get('config_currency'), $result['currency_code']);
                 $products[] = [
@@ -313,10 +309,9 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $query_refunded = $this->model_extension_module_kevin_refund->getRefundOrderAmount($result['order_id']);
 
             $currency_value = 1;
-            //	$total =  $this->currency->convert((float)($query_refunded['total_amount']), $this->config->get('config_currency'), $result['currency_code']);
-            //	echo '<pre>1: '; print_r( $result['amount_available']); echo '</pre>';
+
             $amount_available = $result['kevin_total'] - $query_refunded['total_amount'];
-            //	echo '<pre>2: '; print_r($amount_available); echo '</pre>';
+
             $data['orders'][] = [
                 'order_id' => $result['order_id'],
                 'products' => $products,
@@ -327,7 +322,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 'amount_0' => $this->currency->format('0', $result['currency_code'], $currency_value),
                 'amount' => $this->currency->format((float) $query_refunded['total_amount'], $result['currency_code'], $currency_value),
                 'amount_available' => $this->currency->format((float) $amount_available, $result['currency_code'], $currency_value),
-            //	'amount_available'      => $this->currency->format((float)$result['amount_available'], $result['currency_code'], $currency_value),
                 'refund_available' => $refund_available,
                 'currency_symbol_left' => $this->currency->getSymbolLeft($result['currency_code']),
                 'currency_symbol_right' => $this->currency->getSymbolRight($result['currency_code']),
@@ -429,11 +423,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
         if (isset($this->request->get['filter_total'])) {
             $url .= '&filter_total='.$this->request->get['filter_total'];
         }
-        /*
-        if (isset($this->request->get['filter_total_amount'])) {
-            $url .= '&filter_total_amount=' . $this->request->get['filter_total_amount'];
-        }
-*/
+
         if (isset($this->request->get['filter_date_added'])) {
             $url .= '&filter_date_added='.$this->request->get['filter_date_added'];
         }
@@ -470,7 +460,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
         $data['filter_customer'] = $filter_customer;
         $data['filter_order_status'] = $filter_order_status;
         $data['filter_total'] = $filter_total;
-        //	$data['filter_total_amount'] = $filter_total_amount;
         $data['filter_date_added'] = $filter_date_added;
         $data['filter_date_modified'] = $filter_date_modified;
 
@@ -536,11 +525,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
         if (isset($this->request->get['filter_total'])) {
             $url .= '&filter_total='.$this->request->get['filter_total'];
         }
-        /*
-        if (isset($this->request->get['filter_total_amount'])) {
-            $url .= '&filter_total_amount=' . $this->request->get['filter_total_amount'];
-        }
-*/
+
         if (isset($this->request->get['filter_date_added'])) {
             $url .= '&filter_date_added='.$this->request->get['filter_date_added'];
         }
@@ -577,6 +562,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $data['amount_0'] = $this->currency->format('0', $order_info['currency_code'], $order_info['currency_value']);
 
             $query_refunded = $this->model_extension_module_kevin_refund->getRefundOrderAmount($order_id);
+          
             $data['amount'] = $this->currency->format($query_refunded['total_amount'], $query_refund['currency_code'], 1);
 
             $amount_available = $query_refund['total'] - $query_refunded['total_amount'];
@@ -619,7 +605,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
                     $refunded_amount = $total_amount;
                 }
 
-                //	echo '<pre>'; print_r($result); echo '</pre>';
                 $amount_available = $total - $total_amount;
                 $data['refunds'][] = [
                     'order_id' => $order_id,
@@ -660,6 +645,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $this->load->model('tool/image');
 
             $results = $this->model_extension_module_kevin_refund->getRestockedProducts($order_id);
+
             $data['restocked_products'] = [];
 
             foreach ($results as $result) {
@@ -717,11 +703,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             if (isset($this->request->get['filter_total'])) {
                 $url .= '&filter_total='.$this->request->get['filter_total'];
             }
-            /*
-            if (isset($this->request->get['filter_total_amount'])) {
-                $url .= '&filter_total_amount=' . $this->request->get['filter_total_amount'];
-            }
-*/
+
             if (isset($this->request->get['filter_date_added'])) {
                 $url .= '&filter_date_added='.$this->request->get['filter_date_added'];
             }
@@ -753,8 +735,6 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 'text' => $this->language->get('heading_title'),
                 'href' => $this->url->link('extension/module/kevin_refund', 'user_token='.$this->session->data['user_token'].$url, true),
             ];
-
-            //	$data['invoice'] = $this->url->link('extension/module/kevin_refund/invoice', 'user_token=' . $this->session->data['user_token'] . '&order_id=' . (int)$this->request->get['order_id'], true);
 
             $data['cancel'] = $this->url->link('extension/module/kevin_refund', 'user_token='.$this->session->data['user_token'].$url, true);
 
@@ -924,9 +904,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $ordered_quantity = !empty($value['ordered_quantity']) ? $value['ordered_quantity'] : 0;
                 $restock_quantity = !empty($value['restock_quantity']) ? $value['restock_quantity'] : 0;
                 $name = !empty($value['name']) ? $value['name'] : '';
-                if (!empty($value['name'])) {
-                    //	$value['name'];
-                }
+
                 if ($value['restock_quantity'] == 0) {
                     $value['restock_quantity'] = 0;
                 }
@@ -966,9 +944,9 @@ class ControllerExtensionModuleKevinRefund extends Controller
 
         $refunds = !empty($project_settings['allowedRefundsFor']) ? $project_settings['allowedRefundsFor'] : '';
         if (empty($refunds)) {
-            $this->session->data['error_refund'] = 'An error occurred! You are not authorized to make refunds. Please contact <a style="font-weight: 800; color:red;" href="https://kevin.eu" target="_blank">kevin.</a>';
+            $this->session->data['error_refund'] = $this->language->get('error_auth_refund');
             $this->response->redirect($this->url->link('extension/module/kevin_refund', 'user_token='.$this->session->data['user_token'], true));
-            $this->KevinRefundLog($this->session->data['error_refund']);
+            $this->KevinRefundLog('Authorized error to make refunds.');
         }
 
         $this->load->model('sale/order');
@@ -999,11 +977,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
         if (isset($this->request->get['filter_total'])) {
             $url .= '&filter_total='.$this->request->get['filter_total'];
         }
-        /*
-        if (isset($this->request->get['filter_total_amount'])) {
-            $url .= '&filter_total_amount=' . $this->request->get['filter_total_amount'];
-        }
-*/
+
         if (isset($this->request->get['filter_date_added'])) {
             $url .= '&filter_date_added='.$this->request->get['filter_date_added'];
         }
@@ -1020,8 +994,8 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $order_id = $this->request->get['order_id'];
 
             if (empty($this->request->post['kevin_refund_amount'])) {
-                $this->session->data['error_refund'] = 'An error occurred! Refund amount was not entered. Please try again by entering the Refund Amount.';
-                $this->KevinRefundLog($this->session->data['error_refund']);
+                $this->session->data['error_refund'] = $this->language->get('error_amount_refund');
+                $this->KevinRefundLog('An error occurred! Refund amount was not entered.');
                 if ($refund_info) {
                     $this->response->redirect($this->url->link('extension/module/kevin_refund/info&order_id='.$order_id, 'user_token='.$this->session->data['user_token'], true));
                 } else {
@@ -1092,7 +1066,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
 
             $this->model_extension_module_kevin_refund->addKevinRefund($refund);
 
-            $this->session->data['success_refund'] = 'Amount prepared for refund: '.$refunded_amount.'. Refund status: "'.$refund['statusGroup'].'". Order No. '.$order_id.'.';
+            $this->session->data['success_refund'] = sprintf($this->language->get('text_refund_prepare'), $refunded_amount, $refund['statusGroup'], $order_id);
             $this->KevinRefundLog($this->session->data['success_refund']);
 
             if ($refund_info) {
@@ -1101,8 +1075,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
                 $this->response->redirect($this->url->link('extension/module/kevin_refund', 'user_token='.$this->session->data['user_token'].$url, true));
             }
         } else {
-            $this->session->data['error_refund'] = 'An error occurred! Please check the form and fill in all required fields and try again.';
-            $this->KevinRefundLog($this->session->data['error_refund']);
+            $this->session->data['error_refund'] = $this->language->get('error_field_refund');
 
             if ($refund_info) {
                 $this->response->redirect($this->url->link('extension/module/kevin_refund/info&order_id='.$order_id, 'user_token='.$this->session->data['user_token'], true));

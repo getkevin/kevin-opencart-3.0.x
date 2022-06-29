@@ -40,6 +40,7 @@ $_['error_kevin_payment_id'] = 'Error. El sistema de pago no devuelve el ID de p
 $_['error_missing_data'] = 'Sin detalles de pago! Vuelve a intentarlo o elige otro método de pago.';
 $_['error_order_session'] = 'Hubo un error. ¡Sesión completada! Inténtalo de nuevo.';
 $_['error_payment_option'] = 'El pago con este método de pago no está disponible.';
+$_['error_response'] = '¡Hubo un error! Descripción: error del servidor. Inténtalo de nuevo.';
 
 // Button
 $_['button_confirm'] = 'Confirmar el pedido';

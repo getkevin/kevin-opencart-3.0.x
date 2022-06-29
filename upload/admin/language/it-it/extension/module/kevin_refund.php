@@ -60,6 +60,9 @@ $_['text_success'] = 'Successo: Hai modificato <span style="font-weight: 700; co
 $_['text_telephone'] = 'Telefono';
 $_['text_upc'] = 'UPC:';
 $_['text_upload'] = 'Il tuo file è stato caricato con successo!';
+$_['text_sandbox_alert'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> pagamenti sono impostati sulla modalità Sandbox. Solo per pagamenti di prova. I pagamenti reali non sono disponibili!';
+$_['text_refund_warning'] = '<span style = "font-weight: 600; color: red;"> kevin. </span> Non sono ammessi rimborsi! Contatta <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_ blank"> kevin. </a>';
+$_['text_refund_prepare'] = 'Importo preparato per il rimborso: %1$s. Stato del rimborso: "%2$s". N. ordine %3$s.';
 
 // Button
 $_['button_cancel'] = 'Cancella';
@@ -110,3 +113,6 @@ $_['error_action'] = 'Attenzione: Impossibile completare questa azione!';
 $_['error_filetype'] = 'Tipo di file non valido!';
 $_['error_permission'] = 'Attenzione: Non hai il permesso di modificare kevin. Rimborsi';
 $_['error_warning'] = 'Attenzione: Si prega di controllare attentamente il modulo per eventuali errori!';
+$_['error_auth_refund'] = 'C\'è stato un errore!  Non puoi effettuare rimborsi. Contatta <a style = "font-weight: 800; color: red;" href = "https://kevin.eu" target = "_ blank"> kevin. </a>';
+$_['error_amount_refund'] = 'C\'è stato un errore! L\'importo del rimborso non è stato inserito. Riprova inserendo l\'importo del rimborso.';
+$_['error_field_refund'] = 'C\'è stato un errore!  Si prega di controllare il modulo, compilare tutti i campi richiesti e riprovare.';
