@@ -21,7 +21,7 @@ class ControllerExtensionPaymentKevin extends Controller
     private $type = 'payment';
     private $name = 'kevin';
     private $lib_version = '0.3';
-    private $plugin_version = '1.0.1.5';
+    private $plugin_version = KEVIN_VERSION;
 
     public function index()
     {
