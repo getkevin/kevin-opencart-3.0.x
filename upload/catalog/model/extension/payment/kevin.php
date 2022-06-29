@@ -1,7 +1,7 @@
 <?php
 /*
 * 2020 kevin. payment  for OpenCart version 3.0.x.x
-* @version 1.0.1.4
+* @version 1.0.1.5
 *
 * NOTICE OF LICENSE
 *
@@ -19,7 +19,7 @@ use Kevin\Client;
 class ModelExtensionPaymentKevin extends Model
 {
     private $lib_version = '0.3';
-    private $plugin_version = '1.0.1.4';
+    private $plugin_version = '1.0.1.5';
 
     public function getMethod($address, $total)
     {
