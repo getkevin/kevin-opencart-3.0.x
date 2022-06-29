@@ -14,6 +14,7 @@
 *  @copyright kevin.
 *  @license http://opensource.org/licenses/afl-3.0.php Academic Free License (AFL 3.0)
 */
+
 use Kevin\Client;
 
 class ControllerExtensionModuleKevinRefund extends Controller
@@ -562,7 +563,7 @@ class ControllerExtensionModuleKevinRefund extends Controller
             $data['amount_0'] = $this->currency->format('0', $order_info['currency_code'], $order_info['currency_value']);
 
             $query_refunded = $this->model_extension_module_kevin_refund->getRefundOrderAmount($order_id);
-          
+
             $data['amount'] = $this->currency->format($query_refunded['total_amount'], $query_refund['currency_code'], 1);
 
             $amount_available = $query_refund['total'] - $query_refunded['total_amount'];
